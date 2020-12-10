@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}new product{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block body %}
+    <div class="form-control d-flex justify-content-center ">
+        <span class="border border-dark" style="padding: 10px">
+            <div class=" align-items-center">
+                <h1>entrez un nouveau produit</h1>
+                {{ form_start(form) }}
+                <div class="input-group input-group-sm mb-3">
+                    {{ form_row(form.name, {"label" : "Nom produit: ", "attr" : {"placeholder" : "Nom produit"} }) }}
+                </div>
+                <div class="input-group input-group-sm mb-3">
+                    {{ form_row(form.reference, {"label" : "Réference: "}) }}
+                </div>
+                <div class="input-group input-group-sm mb-3">
+                    {{ form_row(form.quantity, {"label" : "Quantité ajouté: "}) }}
+                </div>
+                <div class="input-group input-group-sm mb-3">
+                    {{ form_row(form.name_img, {"label" : "Image associative: "}) }}
+                </div>
+                <div class="input-group input-group-sm mb-3">
+                    <button type="submit">envoyer </button>
+                </div>
+                    <br>
+                    <br>
+                    {% if code != "" %}
+                        <p>votre code barre : </p>
+                        <br>
+                        <img src="data:image/png;base64,{{code}}" alt="bare_code" class="img-fluid" style="margin-left: 100px">
+                    {% endif %}
+                    {{ form_rest(form) }}
+                {{ form_end(form) }}
+            </div>
+        </span>
+    </div>
+{% endblock %}

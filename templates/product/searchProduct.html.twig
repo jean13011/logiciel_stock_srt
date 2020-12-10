@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}search{% endblock %}
+
+{% block  body %}
+        {% for product in products %}
+        <div>
+            <article>
+                <p>Nom :  {{product.name}} </p>
+                <p>Réference :  {{product.reference}} </p>
+                <p>Quantité :  {{product.quantity}} </p>
+                <br><br>
+            </article>
+        </div>
+            
+        {% endfor %}
+{% endblock %}
