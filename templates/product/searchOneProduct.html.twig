@@ -4,12 +4,12 @@
 
 {% block  body %}
     <br>
-    {% for product in products %}
-    <form action="{{path("product_findOneBy", {"reference" : product.reference})}}" method="get">
+    <form  method="get">
         <label for="reference">Réference: </label>
         <input type="text" name="" id="product_reference">
-        <button type="submit">recherche</button>
+        <a href=""><button type="submit">recherche</button></a>
     </form>
+    {% for product in products %}
     <table class="table">
         <thead>
             <tr>

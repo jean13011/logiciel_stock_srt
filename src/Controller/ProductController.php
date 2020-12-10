@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Form\SearchType;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use Picqer\Barcode\BarcodeGeneratorPNG;
@@ -16,7 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ProductController extends AbstractController
 {
     /**
-     * @Route("/", name="product")
+     *@Route("/", name="product")
      */
     public function index(): Response
     {
@@ -26,7 +27,7 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("/newProduct", name="product_type")
+     *@Route("/newProduct", name="product_type")
      * 
      * if the form is valid en submitted we send all the datas in the DB, we save the image and generate a barcode wich is the reference
      * 
@@ -67,7 +68,7 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("/searchProduct", name="product_search")
+     *@Route("/searchProduct", name="product_search")
      */
     public function displayProduct(ProductRepository $repo)
     {
@@ -77,11 +78,15 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("/searchProduct/remove", name="product_remove")
-     * 
+     * @Route("/searchProduct/{reference}", name="product_findOneBy")
      */
-    public function remove()
+    public function findProduct(Request $req, EntityManagerInterface $manager, ProductRepository $repo)
     {
-        
-    }
+        $product = new Product;
+        $product = $this->getDoctrine()->getRepository(Product::class)->find($product->getReference());
+
+        return $this->render("product/searchProduct.html.twig", [
+            "product" => $product
+        ]);
+    }    
 }
