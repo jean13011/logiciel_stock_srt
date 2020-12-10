@@ -75,4 +75,13 @@ class ProductController extends AbstractController
             'products' => $repo->findAll()
         ]);
     }
+
+    /**
+     * @Route("/searchProduct/remove", name="product_remove")
+     * 
+     */
+    public function remove()
+    {
+        
+    }
 }
