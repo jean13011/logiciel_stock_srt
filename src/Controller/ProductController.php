@@ -17,7 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ProductController extends AbstractController
 {
     /**
-     *@Route("/", name="product")
+     * @Route("/", name="product")
      */
     public function index(): Response
     {
@@ -27,13 +27,15 @@ class ProductController extends AbstractController
     }
 
     /**
-     *@Route("/newProduct", name="product_type")
+     * @Route("/newProduct", name="product_type")
      * 
      * if the form is valid en submitted we send all the datas in the DB, we save the image and generate a barcode wich is the reference
+     * @param Object Request to handle the form
+     * @param Object EntityManagerInterface $manager to persist all datas and flush them in the DB
      * 
-     * @return view
+     * @return Response
      */
-    public function addNewProduct(Request $req, EntityManagerInterface $manager)
+    public function addNewProduct(Request $req, EntityManagerInterface $manager):Response
     {
         $product = new Product();
         $form = $this->createForm(ProductType::class, $product);
@@ -56,9 +58,6 @@ class ProductController extends AbstractController
             $generator =  new BarcodeGeneratorPNG();
             $code = base64_encode($generator->getBarcode($product->getReference(), $generator::TYPE_CODE_128));
         }
-        
-        
-
         return $this->render("product/newProduct.html.twig", 
         [
             "form" => $form->createView(),
@@ -67,9 +66,14 @@ class ProductController extends AbstractController
     }
 
     /**
-     *@Route("/searchProduct", name="product_search")
+     * @Route("/searchProduct", name="product_search")
+     * 
+     * it display all products from the db 
+     * @param Object ProductRepository $repo to find all the products from the repository
+     * 
+     * @return Response 
      */
-    public function displayProduct(Request $req, EntityManagerInterface $manager, ProductRepository $repo)
+    public function displayProduct(ProductRepository $repo): Response
     {
 
         return $this->render('product/searchProduct.html.twig', [
@@ -78,9 +82,13 @@ class ProductController extends AbstractController
     } 
 
     /**
-     *@Route("/yourProduct", name="product_search_reference")
+     * @Route("/yourProduct", name="product_search_reference")
+     * 
+     * @param Object ProductRepository $repo to find the product by the reference entered into the form
+     * 
+     * @return Response
      */
-    public function searchByReference(Request $req, ProductRepository $repo)
+    public function searchByReference(ProductRepository $repo): Response
     {
         if(isset($_GET)) 
         {
@@ -96,8 +104,12 @@ class ProductController extends AbstractController
 
     /**
      * @Route("/ModifyProduct/{id}", name="product_modify")
+     * @param Object ProductRepository for doctrine 
+     * @param Int $id from the stock
+     * 
+     * @return Response
      */
-    public function modifyProduct(Request $req, ProductRepository $repo, int $id)
+    public function modifyProduct( ProductRepository $repo, int $id):Response
     {
         if(isset($id)) 
         {
