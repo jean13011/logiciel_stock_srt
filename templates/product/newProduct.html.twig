@@ -11,15 +11,18 @@
                 <h1>entrez un nouveau produit</h1>
                 {{ form_start(form) }}
                 <div class="input-group input-group-sm mb-3">
-                    {{ form_row(form.name, {"label" : "Nom produit: "}) }}
+                    {{ form_row(form.name, {"label" : "Nom produit:   "}) }}
                 </div>
                 <div class="input-group input-group-sm mb-3">
                     {{ form_row(form.reference, {"label" : "Réference: "}) }}
                 </div>
                 <div class="input-group input-group-sm mb-3">
-                    {{ form_row(form.quantity, {"label" : "Quantité ajouté: "}) }}
+                    {{ form_row(form.quantity, {"label" : "Quantité: "}) }}
                 </div>
                 <div class="input-group input-group-sm mb-3">
+                    {{ form_row(form.emplacement, {"label" : "Emplacement: "}) }}
+                </div>
+                 <div class="input-group input-group-sm mb-3">
                     {{ form_row(form.name_img, {"label" : "Image associative: "}) }}
                 </div>
                 <div class="input-group input-group-sm mb-3">
@@ -28,7 +31,7 @@
                     <br>
                     <br>
                     {% if code != "" %}
-                        <p>votre code barre : </p>
+                        <p>votre code barre (n'oubliez pas de l'enregistrer): </p>
                         <br>
                         <img src="data:image/png;base64,{{code}}" alt="bare_code" class="img-fluid" style="margin-left: 100px">
                     {% endif %}

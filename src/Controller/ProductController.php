@@ -62,31 +62,49 @@ class ProductController extends AbstractController
         return $this->render("product/newProduct.html.twig", 
         [
             "form" => $form->createView(),
-            "code" => $code
-            
+            "code" => $code 
         ]);
     }
 
     /**
      *@Route("/searchProduct", name="product_search")
      */
-    public function displayProduct(ProductRepository $repo)
+    public function displayProduct(Request $req, EntityManagerInterface $manager, ProductRepository $repo)
     {
+
         return $this->render('product/searchProduct.html.twig', [
             'products' => $repo->findAll()
         ]);
+    } 
+
+    /**
+     *@Route("/yourProduct", name="product_search_reference")
+     */
+    public function searchByReference(Request $req, ProductRepository $repo)
+    {
+        if(isset($_GET)) 
+        {
+            $find = $repo->findOneBy([
+                "reference" => $_GET["product"]["reference"]
+            ]);
+            return $this->render('product/searchOneProduct.html.twig', [
+                'products' => $find
+            ]);
+        }
+        return new Response("produit non trouvé"); 
     }
 
     /**
-     * @Route("/searchProduct/{reference}", name="product_findOneBy")
+     * @Route("/ModifyProduct/{id}", name="product_modify")
      */
-    public function findProduct(Request $req, EntityManagerInterface $manager, ProductRepository $repo)
+    public function modifyProduct(Request $req, ProductRepository $repo, int $id)
     {
-        $product = new Product;
-        $product = $this->getDoctrine()->getRepository(Product::class)->find($product->getReference());
-
-        return $this->render("product/searchProduct.html.twig", [
-            "product" => $product
-        ]);
-    }    
+        if(isset($id)) 
+        {
+            $find = $repo->find($id);
+            return $this->render('product/updateProduct.html.twig', [
+                'products' => $find
+            ]);
+        }
+    }
 }

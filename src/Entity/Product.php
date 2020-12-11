@@ -43,6 +43,11 @@ class Product
     /**
      * @ORM\Column(type="string", length=255)
      */
+    private $emplacement;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
     private $name_img;
 
     public function getId(): ?int
@@ -82,6 +87,18 @@ class Product
     public function setQuantity(int $quantity): self
     {
         $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    public function getEmplacement(): ?string
+    {
+        return $this->emplacement;
+    }
+
+    public function setEmplacement(string $emplacement): self
+    {
+        $this->emplacement = $emplacement;
 
         return $this;
     }

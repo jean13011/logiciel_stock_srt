@@ -1,39 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}recherche produit{% endblock %}
+{% block title %}stock{% endblock %}
 
-{% block body %}
+{% block  body %}
     <br>
     <form action="{{path("product_search_reference")}}" method="get">
         <label for="reference">Réference: </label>
         <input type="text" name="product[reference]" id="product_reference">
         <button type="submit">recherche</button>
     </form>
-    <br><br>
-    {% if products != null %}
     <table class="table table-bordered">
         <thead>
             <tr>
                 <th scope="col">id: </th>
-                <th scope="col">nom: </th>
+                <th scope="col" row="10" col="15">nom: </th>
                 <th scope="col">Réference :</th>
                 <th scope="col">Quantité :</th>
                 <th scope="col">Emplacement au rack :</th>
-                <th scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
             <th scope="row">#{{products.id}}</th>
             <td>{{products.name}}</td>
-            <td>{{products.reference}}</td>
-            <td>{{products.quantity}}</td>
-            <td>{{products.emplacement}}</td>
-            <td><form action="{{path("product_modify", {"id" : products.id})}}" method="get"><button type="submit" class="btn btn-primary" value="{{products.id}}">Modifier</button></form> <button type="submit" class="btn btn-danger">Supprimer</button></td>  
+            <td>{{products.reference}} <a href=""><button type="button" class="btn btn-primary">Modifier</button></a></td>
+            <td>{{products.quantity}} <button type="button" class="btn btn-danger btn-sm">-</button></td>
+            <td>{{products.emplacement}}<a href=""><button type="button" class="btn btn-primary">Modifier</button></a></td>
         </tbody>
+        <br><br>
     </table>
-    {% endif %}
-
-    {% if products == null %}
-        <p>Aucun résultat pour cette réference.</p>
-    {% endif %}
 {% endblock %}

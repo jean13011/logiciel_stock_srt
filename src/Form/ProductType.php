@@ -17,8 +17,11 @@ class ProductType extends AbstractType
         $builder
             ->add('name', TextType::class)
             ->add('reference', TextType::class)
-            ->add('quantity', IntegerType::class)
+            ->add('quantity', IntegerType::class, [
+                "attr" => ["min" => 0, "max"=> 100]
+            ])
             ->add('name_img', FileType::class)
+            ->add('emplacement', TextType::class)
         ;
     }
 

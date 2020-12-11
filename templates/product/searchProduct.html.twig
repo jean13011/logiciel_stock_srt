@@ -1,30 +1,33 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}search{% endblock %}
+{% block title %}stock{% endblock %}
 
 {% block  body %}
     <br>
-    {% for product in products %}
-    <form action="{{path("product_findOneBy", {"reference" : product.reference})}}" method="get">
+    <form action="{{path("product_search_reference")}}" method="get">
         <label for="reference">Réference: </label>
-        <input type="text" name="" id="product_reference">
+        <input type="text" name="product[reference]" id="product_reference">
         <button type="submit">recherche</button>
     </form>
-    <table class="table">
+    {% for product in products %}
+    <table class="table table-bordered">
         <thead>
             <tr>
                 <th scope="col">id: </th>
-                <th scope="col">nom: </th>
+                <th scope="col" row="10" col="15">nom: </th>
                 <th scope="col">Réference :</th>
                 <th scope="col">Quantité :</th>
+                <th scope="col">Emplacement au rack :</th>
+                <th scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
             <th scope="row">#{{product.id}}</th>
             <td>{{product.name}}</td>
             <td>{{product.reference}}</td>
-            <td>{{product.quantity}} <button type="button" class="btn btn-danger btn-sm">-</button></td>
-            
+            <td>{{product.quantity}}</td>
+            <td>{{product.emplacement}}</td>
+            <td><form action="{{path("product_modify", {"id" : product.id})}}" method="get"><button type="submit" class="btn btn-primary" value="{{product.id}}">Modifier</button></form> <button type="submit" class="btn btn-danger">Supprimer</button></td>
         </tbody>
         <br><br>
     </table>
