@@ -33,7 +33,7 @@ class ProductController extends AbstractController
      * @param Object Request to handle the form
      * @param Object EntityManagerInterface $manager to persist all datas and flush them in the DB
      * 
-     * @return Response
+     * @return Response for src/template/product/newProduct.html.twig
      */
     public function addNewProduct(Request $req, EntityManagerInterface $manager):Response
     {
@@ -47,7 +47,8 @@ class ProductController extends AbstractController
         {
             $manager->persist($product);
             $manager->flush();
-            
+
+            //save the image in the folder public/img to use it more later
             if(isset($_FILES["product"])) 
             {
                 $name_img = $_FILES["product"]["name"]["name_img"];
@@ -71,7 +72,7 @@ class ProductController extends AbstractController
      * it display all products from the db 
      * @param Object ProductRepository $repo to find all the products from the repository
      * 
-     * @return Response 
+     * @return Response for src/template/product/searchProduct.html.twig
      */
     public function displayProduct(ProductRepository $repo): Response
     {
@@ -84,9 +85,10 @@ class ProductController extends AbstractController
     /**
      * @Route("/yourProduct", name="product_search_reference")
      * 
+     * search  product by the reference in the code bar or manualy entered
      * @param Object ProductRepository $repo to find the product by the reference entered into the form
      * 
-     * @return Response
+     * @return Response for src/template/product/searchOneProduct.html.twig
      */
     public function searchByReference(ProductRepository $repo): Response
     {
@@ -104,12 +106,14 @@ class ProductController extends AbstractController
 
     /**
      * @Route("/ModifyProduct/{id}", name="product_modify")
+     * 
+     * set an interface with multiple buttons for update or delete somes product's infos
      * @param Object ProductRepository for doctrine 
      * @param Int $id from the stock
      * 
-     * @return Response
+     * @return Response for src/template/product/updateProduct.html.twig
      */
-    public function modifyProduct( ProductRepository $repo, int $id):Response
+    public function modifyProductInterface( ProductRepository $repo, int $id):Response
     {
         if(isset($id)) 
         {
