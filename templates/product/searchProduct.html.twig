@@ -9,6 +9,14 @@
         <input type="text" name="product[reference]" id="product_reference">
         <button type="submit">recherche</button>
     </form>
+
+    <form action="{{path("product_search_by_rack")}}" method="get">
+        <label for="recherche"> chercher par</label>
+        <select name="product[emplacement]" >
+            <option>Rack</option>
+        </select>
+        <button type="submit">recherche</button>
+    </form>
     {% for product in products %}
     <table class="table table-bordered">
         <thead>
@@ -27,7 +35,14 @@
             <td>{{product.reference}}</td>
             <td>{{product.quantity}}</td>
             <td>{{product.emplacement}}</td>
-            <td><form action="{{path("product_modify", {"id" : product.id})}}" method="get"><button type="submit" class="btn btn-primary" value="{{product.id}}">Modifier</button></form> <button type="submit" class="btn btn-danger">Supprimer</button></td>
+            <td>
+                <form action="{{path("product_modify", {"id" : product.id})}}" method="get">
+                    <button type="submit" class="btn btn-primary" value="{{product.id}}">Modifier</button>
+                </form> 
+                    <button type="submit" class="btn btn-danger" value="{{product.id}}"> 
+                        <a href="{{path("product_delete", {"id" : product.id})}}" style='text-decoration: none; color: white'>Supprimer</a>
+                    </button>
+            </td>
         </tbody>
         <br><br>
     </table>

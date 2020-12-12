@@ -30,8 +30,8 @@ class ProductController extends AbstractController
      * @Route("/newProduct", name="product_type")
      * 
      * if the form is valid en submitted we send all the datas in the DB, we save the image and generate a barcode wich is the reference
-     * @param Object Request to handle the form
-     * @param Object EntityManagerInterface $manager to persist all datas and flush them in the DB
+     * @param object Product product  Request to handle the form
+     * @param object Product product  EntityManagerInterface $manager to persist all datas and flush them in the DB
      * 
      * @return Response for src/template/product/newProduct.html.twig
      */
@@ -48,14 +48,6 @@ class ProductController extends AbstractController
             $manager->persist($product);
             $manager->flush();
 
-            //save the image in the folder public/img to use it more later
-            if(isset($_FILES["product"])) 
-            {
-                $name_img = $_FILES["product"]["name"]["name_img"];
-                $path_img = $_FILES["product"]["tmp_name"]["name_img"];
-                $image = copy($path_img ,dirname(dirname(__DIR__)) . "/public/img/" . $name_img);
-            }
-
             $generator =  new BarcodeGeneratorPNG();
             $code = base64_encode($generator->getBarcode($product->getReference(), $generator::TYPE_CODE_128));
         }
@@ -70,15 +62,16 @@ class ProductController extends AbstractController
      * @Route("/searchProduct", name="product_search")
      * 
      * it display all products from the db 
-     * @param Object ProductRepository $repo to find all the products from the repository
+     * @param object Product product  ProductRepository $repo to find all the products from the repository
      * 
-     * @return Response for src/template/product/searchProduct.html.twig
+     * @return object Response for src/template/product/searchProduct.html.twig
      */
     public function displayProduct(ProductRepository $repo): Response
     {
 
+        $orderBy = "order by name";
         return $this->render('product/searchProduct.html.twig', [
-            'products' => $repo->findAll()
+            'products' => $repo->findBy([], ["name" => "asc"] )
         ]);
     } 
 
@@ -86,7 +79,7 @@ class ProductController extends AbstractController
      * @Route("/yourProduct", name="product_search_reference")
      * 
      * search  product by the reference in the code bar or manualy entered
-     * @param Object ProductRepository $repo to find the product by the reference entered into the form
+     * @param object Product product  ProductRepository $repo to find the product by the reference entered into the form
      * 
      * @return Response for src/template/product/searchOneProduct.html.twig
      */
@@ -105,15 +98,30 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("/ModifyProduct/{id}", name="product_modify")
+     * @Route("/searchByRack", name="product_search_by_rack")
      * 
-     * set an interface with multiple buttons for update or delete somes product's infos
-     * @param Object ProductRepository for doctrine 
+     * search the product by the  rack's emplacement DESC
+     */
+    public function searchByRack(ProductRepository $repo): Response
+    {
+    
+        $find = $repo->findBy([], ["emplacement" => "desc"]);
+        return $this->render('product/searchProduct.html.twig', [
+            'products' => $find
+        ]);
+        
+    }
+
+    /**
+     * @Route("/modifyProduct/{id}", name="product_modify")
+     * 
+     * set an interface with multiple buttons for update or delete somes product's infos but no modification for the moment with this
+     * @param object Product product  ProductRepository for doctrine 
      * @param Int $id from the stock
      * 
      * @return Response for src/template/product/updateProduct.html.twig
      */
-    public function modifyProductInterface( ProductRepository $repo, int $id):Response
+    public function modifyProductInterface(ProductRepository $repo, int $id):Response
     {
         if(isset($id)) 
         {
@@ -122,5 +130,22 @@ class ProductController extends AbstractController
                 'products' => $find
             ]);
         }
+    }
+
+    /**
+     * @Route("/delete/{id}", name="product_delete")
+     * 
+     * delete the entire product no matter the stock so be carefull
+     * @param object EntityManagerInterface $manager to the access to doctrine
+     * @param object Product $product my Product object
+     * 
+     * @return object Response for src/template/product/searchProduct.html.twig
+     */
+    public function deleteProduct(EntityManagerInterface $manager, Product $product): Response
+    {
+        $manager->remove($product);
+        $manager->flush();
+
+        return $this->redirectToRoute("product_search", ["Response" => "produit suppimé"]);
     }
 }

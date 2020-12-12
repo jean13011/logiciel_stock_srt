@@ -20,7 +20,9 @@ class ProductType extends AbstractType
             ->add('quantity', IntegerType::class, [
                 "attr" => ["min" => 0, "max"=> 100]
             ])
-            ->add('name_img', FileType::class)
+            ->add('name_img', FileType::class, [
+                "required" => false, 'empty_data' => null
+            ])
             ->add('emplacement', TextType::class)
         ;
     }

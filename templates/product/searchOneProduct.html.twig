@@ -28,7 +28,14 @@
             <td>{{products.reference}}</td>
             <td>{{products.quantity}}</td>
             <td>{{products.emplacement}}</td>
-            <td><form action="{{path("product_modify", {"id" : products.id})}}" method="get"><button type="submit" class="btn btn-primary" value="{{products.id}}">Modifier</button></form> <button type="submit" class="btn btn-danger">Supprimer</button></td>  
+            <td>
+                <form action="{{path("product_modify", {"id" : products.id})}}" method="get">
+                    <button type="submit" class="btn btn-primary" value="{{products.id}}">Modifier</button>
+                </form> 
+                <button type="submit" class="btn btn-danger" value="{{products.id}}"> 
+                        <a href="{{path("product_delete", {"id" : products.id})}}" style='text-decoration: none; color: white'>Supprimer</a>
+                    </button>
+            </td>  
         </tbody>
     </table>
     {% endif %}
