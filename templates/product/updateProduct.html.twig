@@ -1,6 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}stock{% endblock %}
+{% block head %}
+<script>
+   
+</script>
+{% endblock %}
 
 {% block  body %}
     <br>
@@ -9,23 +14,30 @@
         <input type="text" name="product[reference]" id="product_reference">
         <button type="submit">recherche</button>
     </form>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th scope="col">id: </th>
-                <th scope="col" row="10" col="15">nom: </th>
-                <th scope="col">Réference :</th>
-                <th scope="col">Quantité :</th>
-                <th scope="col">Emplacement au rack :</th>
-            </tr>
-        </thead>
-        <tbody>
-            <th scope="row">#{{products.id}}</th>
-            <td>{{products.name}}</td>
-            <td>{{products.reference}} <a href=""><button type="button" class="btn btn-primary">Modifier</button></a></td>
-            <td>{{products.quantity}} <button type="button" class="btn btn-danger btn-sm">-</button></td>
-            <td>{{products.emplacement}}<a href=""><button type="button" class="btn btn-primary">Modifier</button></a></td>
-        </tbody>
-        <br><br>
-    </table>
+    <form action="{{path("product_update_with_ajax", {"id": products.id})}}" method="get">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">id: </th>
+                    <th scope="col" row="10" col="15">Nom: </th>
+                    <th scope="col">Réference :</th>
+                    <th scope="col">Quantité :</th>
+                    <th scope="col">Emplacement au rack :</th>
+                </tr>
+            </thead>
+            <tbody>
+                <th scope="row">#{{products.id}}</th>
+                <td>{{products.name}}</td>
+                <td>{{products.reference}} <a href="{{path("product_modify_reference", {"id" : products.id})}}"><button type="button" class="btn btn-warning"> Modifier </button></a></td>
+                <td>
+                    {{products.quantity}} 
+                    <button type="button" class="btn btn-danger btn-sm" id="moin"> - </button>
+                    <button type="button" class="btn btn-success btn-sm" id="plus"> + </button>
+                </td>
+                <td>{{products.emplacement}} <a href=""><button type="button" class="btn btn-warning">  Modifier </button></a></td>
+            </tbody>
+            <br><br>
+        </table>
+        <p><button type="submit" class="btn btn-primary">Enregistrer les modifications</button></p>
+    </form>
 {% endblock %}

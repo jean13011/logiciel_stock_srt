@@ -35,7 +35,7 @@ class ProductController extends AbstractController
      * 
      * @return Response for src/template/product/newProduct.html.twig
      */
-    public function addNewProduct(Request $req, EntityManagerInterface $manager):Response
+    public function add(Request $req, EntityManagerInterface $manager):Response
     {
         $product = new Product();
         $form = $this->createForm(ProductType::class, $product);
@@ -51,11 +51,30 @@ class ProductController extends AbstractController
             $generator =  new BarcodeGeneratorPNG();
             $code = base64_encode($generator->getBarcode($product->getReference(), $generator::TYPE_CODE_128));
         }
+
         return $this->render("product/newProduct.html.twig", 
         [
             "form" => $form->createView(),
             "code" => $code 
         ]);
+    }
+
+    /** 
+     * @Route("/product/update/{id}", name="product_update_with_ajax")
+     * 
+     * 
+    */
+    public function updateWithAjax(Request $req ,int $id)
+    {
+        //ce controlleur aura la logique pour modifier un champs en bdd 
+        //retourner le status de la requete en JSON 
+        //ecouter le retour et rafraichir la vue 
+
+        $form->handleRequest($req);
+        if($form->isSubmitted() && $form->isValid())
+        {
+            dd($req);
+        }
     }
 
     /**
@@ -66,10 +85,11 @@ class ProductController extends AbstractController
      * 
      * @return object Response for src/template/product/searchProduct.html.twig
      */
-    public function displayProduct(ProductRepository $repo): Response
+    public function display(ProductRepository $repo): Response
     {
 
         $orderBy = "order by name";
+
         return $this->render('product/searchProduct.html.twig', [
             'products' => $repo->findBy([], ["name" => "asc"] )
         ]);
@@ -90,6 +110,7 @@ class ProductController extends AbstractController
             $find = $repo->findOneBy([
                 "reference" => $_GET["product"]["reference"]
             ]);
+
             return $this->render('product/searchOneProduct.html.twig', [
                 'products' => $find
             ]);
@@ -105,7 +126,8 @@ class ProductController extends AbstractController
     public function searchByRack(ProductRepository $repo): Response
     {
     
-        $find = $repo->findBy([], ["emplacement" => "desc"]);
+        $find = $repo->findBy([], ["emplacement" => "asc"]);
+
         return $this->render('product/searchProduct.html.twig', [
             'products' => $find
         ]);
@@ -121,7 +143,7 @@ class ProductController extends AbstractController
      * 
      * @return Response for src/template/product/updateProduct.html.twig
      */
-    public function modifyProductInterface(ProductRepository $repo, int $id):Response
+    public function modifyInterface(ProductRepository $repo, int $id):Response
     {
         if(isset($id)) 
         {
@@ -133,6 +155,35 @@ class ProductController extends AbstractController
     }
 
     /**
+     * @Route("/modifyReference/{id}", name="product_modify_reference")
+     */
+    public function modifyReference(Request $req, EntityManagerInterface $manager, int $id, ProductRepository $prod)
+    {
+        $product = new Product;
+        
+        $form = $this->createForm(SearchType::class, $product);
+
+        $code = "";
+
+        $form->handleRequest($req);
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $ref = $product->getReference();
+            $prod->mofifyReference($id, $ref);
+
+            $generator =  new BarcodeGeneratorPNG();
+            $code = base64_encode($generator->getBarcode($product->getReference(), $generator::TYPE_CODE_128));
+        }
+
+        return $this->render("product/modifyReference.html.twig", 
+        [
+            "form" => $form->createView(),
+            "code" => $code 
+        ]);
+    }
+
+
+    /**
      * @Route("/delete/{id}", name="product_delete")
      * 
      * delete the entire product no matter the stock so be carefull
@@ -141,7 +192,7 @@ class ProductController extends AbstractController
      * 
      * @return object Response for src/template/product/searchProduct.html.twig
      */
-    public function deleteProduct(EntityManagerInterface $manager, Product $product): Response
+    public function delete(EntityManagerInterface $manager, Product $product): Response
     {
         $manager->remove($product);
         $manager->flush();

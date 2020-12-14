@@ -39,9 +39,9 @@
                 <form action="{{path("product_modify", {"id" : product.id})}}" method="get">
                     <button type="submit" class="btn btn-primary" value="{{product.id}}">Modifier</button>
                 </form> 
-                    <button type="submit" class="btn btn-danger" value="{{product.id}}"> 
-                        <a href="{{path("product_delete", {"id" : product.id})}}" style='text-decoration: none; color: white'>Supprimer</a>
-                    </button>
+                <button type="submit" class="btn btn-danger" value="{{product.id}}"> 
+                    <a href="{{path("product_delete", {"id" : product.id})}}" style='text-decoration: none; color: white'>Supprimer</a>
+                </button>
             </td>
         </tbody>
         <br><br>

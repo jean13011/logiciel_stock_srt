@@ -47,4 +47,22 @@ class ProductRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function mofifyReference(int $id, string $ref)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = "UPDATE `product` 
+                SET reference = :reference
+                WHERE id = :id   
+                ";
+        
+        $query = $conn->prepare($sql);
+        $exec = $query->execute([
+            "reference" => $ref,
+            "id" => $id
+        ]);
+
+        return $exec;
+    }
 }
