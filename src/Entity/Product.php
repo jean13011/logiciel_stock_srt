@@ -46,6 +46,11 @@ class Product
     private $emplacement;
 
     /**
+     * @ORM\Column(type="datetime")
+     */
+    private $date;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $name_img;
@@ -99,6 +104,18 @@ class Product
     public function setEmplacement(string $emplacement): self
     {
         $this->emplacement = $emplacement;
+
+        return $this;
+    }
+
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    public function setDate($date)
+    {
+        $this->date = $date;
 
         return $this;
     }

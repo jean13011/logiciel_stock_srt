@@ -26,6 +26,8 @@ class ProductController extends AbstractController
         ]);
     }
 
+    ////////////////////////create
+
     /**
      * @Route("/newProduct", name="product_type")
      * 
@@ -58,25 +60,7 @@ class ProductController extends AbstractController
             "code" => $code 
         ]);
     }
-
-    /** 
-     * @Route("/product/update/{id}", name="product_update_with_ajax")
-     * 
-     * 
-    */
-    public function updateWithAjax(Request $req ,int $id)
-    {
-        //ce controlleur aura la logique pour modifier un champs en bdd 
-        //retourner le status de la requete en JSON 
-        //ecouter le retour et rafraichir la vue 
-
-        $form->handleRequest($req);
-        if($form->isSubmitted() && $form->isValid())
-        {
-            dd($req);
-        }
-    }
-
+    /////////////////////////// read
     /**
      * @Route("/searchProduct", name="product_search")
      * 
@@ -121,7 +105,11 @@ class ProductController extends AbstractController
     /**
      * @Route("/searchByRack", name="product_search_by_rack")
      * 
-     * search the product by the  rack's emplacement DESC
+     * search the product by the  rack's emplacement ASC
+     * 
+     * @param object ProductRepository $repo to find all products by emplacement
+     * 
+     * @return object Response
      */
     public function searchByRack(ProductRepository $repo): Response
     {
@@ -134,6 +122,7 @@ class ProductController extends AbstractController
         
     }
 
+    ///////////////////////////////update
     /**
      * @Route("/modifyProduct/{id}", name="product_modify")
      * 
@@ -156,8 +145,9 @@ class ProductController extends AbstractController
 
     /**
      * @Route("/modifyReference/{id}", name="product_modify_reference")
+     * 
      */
-    public function modifyReference(Request $req, EntityManagerInterface $manager, int $id, ProductRepository $prod)
+    public function modifyReference(Request $req, int $id, ProductRepository $prod)
     {
         $product = new Product;
         
@@ -182,7 +172,29 @@ class ProductController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/modifyQuantity", name="product_modify_quantity")
+     */
+    public function modifyQuantity(Request $req, ProductRepository $prod)
+    {
+        $number = $req->request->get("number");
+        $id = $req->request->get("id");
 
+        if(isset($number) && isset($id))
+        {
+            $prod->modifyQuantity($number, $id);
+            $result = $prod->findOneBy(["id" => $id]);
+            return $this->json(["reponse" => "Quantité mise à jour", "resultat" => $result],  200);
+
+        }
+        else 
+        {
+
+            return $this->json(["error" => "aucun numero a été envoyé"], 200);
+        }
+    }
+
+    ///////////////////////// delete
     /**
      * @Route("/delete/{id}", name="product_delete")
      * 

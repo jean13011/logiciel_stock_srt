@@ -65,4 +65,20 @@ class ProductRepository extends ServiceEntityRepository
 
         return $exec;
     }
+
+    public function modifyQuantity(int $quantity, int $id)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = "UPDATE `product` SET quantity = :quantity 
+                WHERE id = :id
+                ";
+
+        $query = $conn->prepare($sql);
+        $exec = $query->execute([
+            "quantity" => $quantity,
+            "id" => $id
+
+        ]);
+    }
 }
