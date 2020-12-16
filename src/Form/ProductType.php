@@ -25,9 +25,7 @@ class ProductType extends AbstractType
                 "label" => "Réference: "
             ])
 
-            ->add('quantity', IntegerType::class, ["label" => "Quantité: "], [
-                "attr" => ["min" => 0, "max"=> 100]
-            ])
+            ->add('quantity', IntegerType::class,[ "label" => "Quantité: ", "attr" => ["min" => 0, "max" => 100]])
 
             ->add('name_img', FileType::class, [
                 "required" => false, 'empty_data' => null, "label" => "image (*facultatif): "
@@ -37,7 +35,7 @@ class ProductType extends AbstractType
                 "label" => "Emplacement au rack: "
             ])
 
-            ->add('date', DateTimeType::class, ["label" => "Date et heure d'entrée: "])
+            ->add('date', DateTimeType::class, ["label" => "Date et heure d'entrée: ", "years" => range(2019,2021) ])
 
         ;
     }

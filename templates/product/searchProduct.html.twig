@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}stock{% endblock %}
+{% block title %}Stock{% endblock %}
 
 {% block  body %}
     <br>
@@ -10,10 +10,10 @@
         <button type="submit">recherche</button>
     </form>
 
-    <form action="" method="get" class="form-inline d-flex justify-content-center md-form form-sm mt-0">
+    <form action="{{path("product_search_by_rack")}}" method="get" class="form-inline d-flex justify-content-center md-form form-sm mt-0">
         <label for="recherche"> chercher par </label>
         <select name="product[emplacement]" >
-           <option> <a href="{{path("product_search_by_rack")}}">rack</a> </option>
+           <option>Rack</option>
         </select>
         <button type="submit">recherche</button>
     </form>
@@ -61,11 +61,11 @@
             <td>{{product.date|date('d-m-Y H:i')}}</td>
             <td>
                 <form action="{{path("product_modify", {"id" : product.id})}}" method="get">
-                    <button type="submit" class="btn btn-primary" value="{{product.id}}">Modifier</button>
+                    <button type="submit" class="btn btn-primary" value="{{product.id}}" >Modifier</button>
                 </form> 
-                <button type="submit" class="btn btn-danger" value="{{product.id}}"> 
-                    <a href="{{path("product_delete", {"id" : product.id})}}" style='text-decoration: none; color: white'>Supprimer</a>
-                </button>
+                <form action="{{path("product_delete", {"id" : product.id})}}" method="get">
+                    <button type="submit" class="btn btn-danger" value="{{product.id}}" > Supprimer </button>
+                </form>
             </td>
         </tbody>
         <br><br>

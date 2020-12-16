@@ -174,6 +174,10 @@ class ProductController extends AbstractController
 
     /**
      * @Route("/modifyQuantity", name="product_modify_quantity")
+     * 
+     * @param object Request $req to get the number set and the id to modify with ajax in the DB
+     * @param object ProductRepository $prod to find the product by the id
+     * 
      */
     public function modifyQuantity(Request $req, ProductRepository $prod)
     {
@@ -186,10 +190,8 @@ class ProductController extends AbstractController
             $result = $prod->findOneBy(["id" => $id]);
             return $this->json(["reponse" => "Quantité mise à jour", "resultat" => $result],  200);
 
-        }
-        else 
+        } else 
         {
-
             return $this->json(["error" => "aucun numero a été envoyé"], 200);
         }
     }

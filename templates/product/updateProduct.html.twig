@@ -1,11 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}stock{% endblock %}
-{% block head %}
-<script>
-   
-</script>
-{% endblock %}
+{% block title %}Stock{% endblock %}
 
 {% block  body %}
     <br>
@@ -15,6 +10,7 @@
         <button type="submit" >recherche</button>
     </form>
     
+    <a href="{{path("product_search")}}">Retour au stock</a>
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -34,69 +30,9 @@
                 <button type="button" onclick="Moin()" class="btn btn-danger btn-sm" id="moin"> - </button>
                 <button type="button" onclick="Plus()" class="btn btn-success btn-sm" id="plus"  > + </button>
             </td>
-            <td>{{products.emplacement}} <a href=""><button type="button" class="btn btn-warning" id="rack">  Modifier </button></a></td>
+            <td>{{products.emplacement}}</td>
         </tbody>
         <br><br>
     </table>
-
-    <script>
-        var number = parseInt(document.querySelector("#quantity").textContent);
-
-        function Plus()
-        {
-            number+=1
-
-            modifyQuantity(); 
-        }
-
-        function Moin()
-        {
-            if(number === 0 )
-            {
-                return;
-            }
-
-            number-=1
-
-            modifyQuantity();
-        }
-
-        function modifyQuantity()
-        {
-
-            var id = parseInt(document.querySelector("#id").textContent);
-
-            var plus = document.querySelector("#plus");
-            var moin = document.querySelector("#moin");
-            
-            console.log(number);
-            
-            let ajax = new XMLHttpRequest();
-            let form = new FormData();
-
-            form.append("id", id);
-            form.append("number", number);
-
-            ajax.onreadystatechange = function()
-            {
-                if (ajax.readystate === 3) 
-                {
-                    
-                }
-
-                if(ajax.readyState === 4  && ajax.status === 200)
-                {
-                    let result = JSON.parse(ajax.responseText); 
-                    
-                    document.querySelector("#quantity").innerHTML = result.resultat.quantity;
-                    
-                }
-                console.log(ajax);
-            }
-            ajax.open("POST", "https://127.0.0.1:8000/modifyQuantity");
-            ajax.send(form);
-            
-        } 
-
-    </script>
+    <script src="{{asset('scripts/modifyQuantity.js')}}"></script>
 {% endblock %}

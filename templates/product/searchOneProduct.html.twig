@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}recherche produit{% endblock %}
+{% block title %}Recherche produit{% endblock %}
 
 {% block body %}
     <br>
@@ -9,6 +9,7 @@
         <input type="text" name="product[reference]" id="product_reference">
         <button type="submit">recherche</button>
     </form>
+    <a href="{{path("product_search")}}">Retour au stock</a>
     <br><br>
     {% if products != null %}
     <table class="table table-bordered">
