@@ -51,9 +51,19 @@ class Product
     private $date;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $name_img;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $action;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $date_modification;
 
     public function getId(): ?int
     {
@@ -132,6 +142,30 @@ class Product
         return $this;
     }
 
+    public function getAction(): ?string
+    {
+        return $this->action;
+    }
+
+    public function setAction(?string $action): self
+    {
+        $this->action = $action;
+
+        return $this;
+    }
+
+    public function getDateModification(): ?\DateTimeInterface
+    {
+        return $this->date_modification;
+    }
+
+    public function setDateModification(?\DateTimeInterface $date_modification): self
+    {
+        $this->date_modification = $date_modification;
+
+        return $this;
+    }
+
     public function eraseCredentials()
     {
 
@@ -146,4 +180,6 @@ class Product
     {
         return ["ROLE_USER"];
     }
+
+    
 }

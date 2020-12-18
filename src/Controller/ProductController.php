@@ -5,28 +5,66 @@ namespace App\Controller;
 use App\Entity\Product;
 use App\Form\SearchType;
 use App\Form\ProductType;
+use App\Form\ConnexionType;
+use Symfony\Component\Ldap\Ldap;
 use App\Repository\ProductRepository;
+use Symfony\Component\Form\FormError;
 use Picqer\Barcode\BarcodeGeneratorPNG;
 use Doctrine\ORM\EntityManagerInterface;
 use Picqer\Barcode\BarcodeGeneratorHTML;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Ldap\Adapter\QueryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
 
 class ProductController extends AbstractController
 {
     /**
      * @Route("/", name="product")
      */
-    public function index(): Response
+    public function connexionInLpad(Request $req, EntityManagerInterface $manage, Ldap $ldap): Response
     {
+
+        $form = $this->createForm(ConnexionType::class);
+
+        $form->handleRequest($req);
+        if($form->isSubmitted() && $form->isValid())
+        {
+            try 
+            {
+                $request = $req->request->get("connexion");
+                $uid= $request["Nom_utilisateur"];
+    
+                $pass = $request["password"];
+    
+                $dn = "uid=".$uid.",ou=users,dc=yunohost,dc=org";
+                $password = $pass;
+        
+                Ldap::create('ext_ldap', [
+                    'host' => 'login.am-conseil.eu',
+                    "port" => "389" ,
+                ]);
+                
+                $ldap->bind($dn, $password);
+                $query = $ldap->query('dc=yunohost,dc=org', '(&(objectClass=inetOrgPerson)(uid='.$uid.'))' );
+                $results = $query->execute()->toArray();
+                dd($results);
+
+            } catch (\Throwable $th) 
+            {
+                $errors = $form->addError(new FormError('Login ou mot de passe inccorect'));
+            }
+        }
+
         return $this->render('product/index.html.twig', [
             'controller_name' => 'ProductController',
+            "form" => $form->createView()
         ]);
     }
 
-    ////////////////////////create
+    //////////////////////// CREATE 
 
     /**
      * @Route("/newProduct", name="product_type")
@@ -35,7 +73,7 @@ class ProductController extends AbstractController
      * @param object Product product  Request to handle the form
      * @param object Product product  EntityManagerInterface $manager to persist all datas and flush them in the DB
      * 
-     * @return Response for src/template/product/newProduct.html.twig
+     * @return object Response for src/template/product/newProduct.html.twig
      */
     public function add(Request $req, EntityManagerInterface $manager):Response
     {
@@ -60,7 +98,7 @@ class ProductController extends AbstractController
             "code" => $code 
         ]);
     }
-    /////////////////////////// read
+    /////////////////////////// READ
     /**
      * @Route("/searchProduct", name="product_search")
      * 
@@ -122,7 +160,8 @@ class ProductController extends AbstractController
         
     }
 
-    ///////////////////////////////update
+    ///////////////////////////////UPDATE
+
     /**
      * @Route("/modifyProduct/{id}", name="product_modify")
      * 
@@ -196,7 +235,8 @@ class ProductController extends AbstractController
         }
     }
 
-    ///////////////////////// delete
+    ///////////////////////// DELETE
+
     /**
      * @Route("/delete/{id}", name="product_delete")
      * 
@@ -211,6 +251,6 @@ class ProductController extends AbstractController
         $manager->remove($product);
         $manager->flush();
 
-        return $this->redirectToRoute("product_search", ["Response" => "produit suppimé"]);
+        return $this->redirectToRoute("product_search");
     }
 }

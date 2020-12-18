@@ -1,4 +1,6 @@
 body
 {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Roboto', sans-serif;
+    font-size: auto;
+    background-color: #e0e1e2;
 }

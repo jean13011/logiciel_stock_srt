@@ -2,43 +2,41 @@
 
 {% block title %}Nouveau produit{% endblock %}
 
-{% block header %}{% endblock %}
-
 {% block body %}
     <div class="form-control d-flex justify-content-center">
-        <span class="border border-dark" style="padding: 10px">
-            <div class=" align-items-center">
+        <span class="border border-dark p-6 rounded" style="padding: 10px">
+            <div class=" align-items-center ">
                 <h1>Entrer un nouveau produit</h1>
                 {{ form_start(form) }}
-                <div class="input-group input-group-sm mb-3">
+                <div class="input-group input-group-sm mb-3 justify-content-center  ">
                     {{ form_row(form.name) }}
                 </div>
-                <div class="input-group input-group-sm mb-3">
+                <div class="input-group input-group-sm mb-3 justify-content-center">
                     {{ form_row(form.reference) }}
                 </div>
-                <div class="input-group input-group-sm mb-3" >
+                <div class="input-group input-group-sm mb-3 justify-content-center w-75 p-3" >
                     {{ form_row(form.quantity) }}
                 </div>
-                <div class="input-group input-group-sm mb-3">
+                <div class="input-group input-group-sm mb-3 justify-content-center">
                     {{ form_row(form.emplacement) }}
                 </div>
 
-                <div class="input-group input-group-sm mb-3">
+                <div class="input-group input-group-sm mb-3 justify-content-center">
                     {{ form_row(form.date)}}
                 </div>
-                
-                <div class="input-group input-group-sm mb-3">
-                    {{ form_row(form.name_img) }}
-                </div>
-                <div class="input-group input-group-sm mb-3">
-                    <button type="submit">envoyer </button>
+                <div class="input-group input-group-sm mb-3 justify-content-center">
+                    <button type="submit" class="btn btn-primary justify-content-center w-50 p-3">envoyer </button>
                 </div>
                     <br>
                     <br>
                     {% if code != "" %}
-                        <p>votre code barre (n'oubliez pas de l'enregistrer): </p>
-                        <br>
-                        <img src="data:image/png;base64,{{code}}" alt="bare_code" class="img-fluid" style="margin-left: 100px">
+                    <div class="container">
+                        <div class="justify-content-center">
+                            <p style="display: flex; justify-content: center">votre code barre (n'oubliez pas de l'enregistrer): </p>
+                            <br>
+                            <img  style="margin-left: 25%" src="data:image/png;base64,{{code}}" alt="bare_code" class="img-fluid" style="margin-left: 100px">
+                        </div>
+                    </div>
                     {% endif %}
                     {{ form_rest(form) }}
                 {{ form_end(form) }}

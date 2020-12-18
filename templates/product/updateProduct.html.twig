@@ -11,26 +11,28 @@
     </form>
     
     <a href="{{path("product_search")}}">Retour au stock</a>
-    <table class="table table-bordered">
+    <table class="table table-bordered bg-white" >
         <thead>
             <tr>
-                <th scope="col">id: </th>
-                <th scope="col" row="10" col="15">Nom: </th>
-                <th scope="col">Réference :</th>
-                <th scope="col">Quantité :</th>
-                <th scope="col">Emplacement au rack :</th>
+                <th class="text-center" scope="col">id: </th>
+                <th class="text-center" scope="col" row="10" col="15">Nom: </th>
+                <th class="text-center" scope="col">Réference :</th>
+                <th class="text-center" scope="col">Quantité :</th>
+                <th class="text-center" scope="col">Emplacement :</th>
             </tr>
         </thead>
         <tbody>
-            <th scope="row" id="id">{{products.id}}</th>
-            <td>{{products.name}}</td>
-            <td>{{products.reference}} <a href="{{path("product_modify_reference", {"id" : products.id})}}"><button type="button" class="btn btn-warning"> Modifier </button></a></td>
-            <td>
-                <p id="quantity">{{products.quantity}} </p>
-                <button type="button" onclick="Moin()" class="btn btn-danger btn-sm" id="moin"> - </button>
-                <button type="button" onclick="Plus()" class="btn btn-success btn-sm" id="plus"  > + </button>
+            <th class="text-center" scope="row" id="id"><strong>{{products.id}}</strong></th>
+            <td class="text-center"><strong>{{products.name}}</strong></td>
+            <td class="text-center"><strong>{{products.reference}}</strong> <a href="{{path("product_modify_reference", {"id" : products.id})}}"><button type="button" class="btn btn-warning"> Modifier </button></a></td>
+            <td class="text-center">
+                <div class="d-flex justify-content-center p-25">
+                    <p id="quantity" class=''><strong>{{products.quantity}}</strong> </p>
+                    <button type="button" onclick="Moin()" class="btn btn-danger btn-sm h-25" id="moin"> - </button>
+                    <button type="button" onclick="Plus()" class="btn btn-success btn-sm h-25" id="plus"  > + </button>
+                </div>
             </td>
-            <td>{{products.emplacement}}</td>
+            <td class="text-center"><strong>{{products.emplacement}}</strong></td>
         </tbody>
         <br><br>
     </table>

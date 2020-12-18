@@ -49,8 +49,7 @@ function modifyQuantity()
         {
             let result = JSON.parse(ajax.responseText); 
             
-            document.querySelector("#quantity").innerHTML = result.resultat.quantity;
-            
+            document.querySelector("#quantity").innerHTML = result.resultat.quantity;          
         }
         console.log(ajax);
     }

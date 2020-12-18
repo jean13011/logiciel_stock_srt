@@ -2,26 +2,24 @@
 
 {% block title %}Modifier la réference{% endblock %}
 
-{% block header %}{% endblock %}
-
 {% block body %}
     <div class="form-control d-flex justify-content-center">
         <span class="border border-dark" style="padding: 10px">
             <div class=" align-items-center">
                 <h1>Nouvelle réference</h1>
                 {{ form_start(form) }}
-                <div class="input-group input-group-sm mb-3">
-                    {{ form_row(form.reference) }}
-                </div>
-                <div class="input-group input-group-sm mb-3">
-                    <button type="submit">envoyer </button>
-                </div>
+                    <div class="input-group input-group-sm mb-3">
+                        {{ form_row(form.reference) }}
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <button type="submit">envoyer </button>
+                    </div>
                     <br>
                     <br>
                     {% if code != "" %}
-                        <p>votre nouveau code barre (n'oubliez pas de l'enregistrer): </p>
-                        <br>
-                        <img src="data:image/png;base64,{{code}}" alt="bare_code" class="img-fluid" style="margin-left: 100px">
+                    <p>votre nouveau code barre (n'oubliez pas de l'enregistrer): </p>
+                    <br>
+                    <img src="data:image/png;base64,{{code}}" alt="bare_code" class="img-fluid" style="margin-left: 100px">
                     {% endif %}
                     {{ form_rest(form) }}
                 {{ form_end(form) }}
