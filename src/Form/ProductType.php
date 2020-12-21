@@ -44,7 +44,7 @@ class ProductType extends AbstractType
                 ]
             ])
 
-            ->add('date', DateTimeType::class, ["label" => "Date et heure d'entrée: ", "data" => new \DateTime("now +1 hour")])
+            ->add('date', DateTimeType::class, ["label" => "Date et heure d'entrée: ", "data" => new \DateTime("now")])
 
         ;
     }

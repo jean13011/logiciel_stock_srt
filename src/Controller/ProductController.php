@@ -23,70 +23,16 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class ProductController extends AbstractController
 {
+
     /**
-     * @Route("/login", name="product")
+     * @Route("/" , name="index")
      */
-    public function connexionInLpad(Request $req, Ldap $ldap, EntityManagerInterface $manager, UserRepository $repo, UserPasswordEncoderInterface $encoder): Response
+    public function index():Response
     {
-        $user = new User();
-        $form = $this->createForm(ConnexionType::class, $user);
-
-        $form->handleRequest($req);
-        if($form->isSubmitted() && $form->isValid())
-        {
-            try 
-            {
-                $request = $req->request->get("connexion");
-                $uid= $request["user_name"];
-                $pass = $request["password"];
-                $password = $pass;
-
-                $conn = $ldap->getEntryManager();
-                $dn = "uid=".$uid.",ou=users,dc=yunohost,dc=org";
-        
-                Ldap::create('ext_ldap', [
-                    'host' => 'login.am-conseil.eu',
-                    "port" => "389" ,
-                ]);
-                
-                $ldap->bind($dn, $password);
-                $query = $ldap->query('dc=yunohost,dc=org', '(&(objectClass=inetOrgPerson)(uid='.$uid.'))' );
-                $results = $query->execute()->toArray();
-            } 
-            
-            catch (\Throwable $th) 
-            {
-                $form->addError(new FormError('Veuillez vérifier vos informations de connection!'));
-            }
-            
-            if( isset($results) && is_array($results))
-            {
-                $find = $repo->findOneBy([
-                    "user_name" => $uid
-                ]);
-                
-                if ($find == true) 
-                {
-                    return $this->redirectToRoute("product_type");
-                } 
-                
-                else 
-                {
-                    $hash = $encoder->encodePassword($user, $user->getPassword());
-                    $user->setPassword($hash);
-                    $user->setRole(["ROLE_USER"]);
-                    $manager->persist($user);
-                    $manager->flush();
-                }
-            }
-        }
-
-        return $this->render('product/index.html.twig', [
-            'controller_name' => 'ProductController',
-            "form" => $form->createView()
-        ]);
+        return $this->redirectToRoute("user_login");
     }
 
+    
     //////////////////////// CREATE 
 
     /**

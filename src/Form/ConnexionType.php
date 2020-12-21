@@ -14,7 +14,7 @@ class ConnexionType extends AbstractType
     {
         $builder
             ->add('user_name', TextType::class, [
-                "label" => "Nom d'utilisateur", "attr" => [
+                "label" => "Nom d'utilisateur",  "attr" => [
                     "class" => "form-control"
                 ]
             ])

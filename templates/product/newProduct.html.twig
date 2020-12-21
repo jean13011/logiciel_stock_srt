@@ -3,8 +3,8 @@
 {% block title %}Nouveau produit{% endblock %}
 
 {% block body %}
-    <div class="form-control d-flex justify-content-center">
-        <span class="border border-dark p-6 rounded" style="padding: 10px">
+    <div class="d-flex justify-content-center">
+        <span class="border border-dark p-6 rounded bg-white shadow-lg p-3 mb-5 bg-white rounded" style="padding: 10px">
             <div class=" align-items-center ">
                 <h1>Entrer un nouveau produit</h1>
                 {{ form_start(form) }}
@@ -30,13 +30,11 @@
                     <br>
                     <br>
                     {% if code != "" %}
-                    <div class="container">
                         <div class="justify-content-center">
-                            <p style="display: flex; justify-content: center">votre code barre (n'oubliez pas de l'enregistrer): </p>
+                            <p class="d-flex justify-content-center">votre code barre (n'oubliez pas de l'enregistrer): </p>
                             <br>
-                            <img  style="margin-left: 25%" src="data:image/png;base64,{{code}}" alt="bare_code" class="img-fluid" style="margin-left: 100px">
+                            <img src="data:image/png;base64,{{code}}" alt="bare_code" class="img-fluid" style="margin-left: 100px">
                         </div>
-                    </div>
                     {% endif %}
                     {{ form_rest(form) }}
                 {{ form_end(form) }}

@@ -8,15 +8,14 @@ security:
         your_db_provider:
             entity:
                 class: App\Entity\User
-                property: apiToken
+                property: user_name
         my_ldap:
             ldap:
                 service: Symfony\Component\Ldap\Ldap
                 base_dn: dc=yunohost,dc=org
-                search_dn: "cn=jeancippelletti,dc=yunohost,dc=org"
+                search_dn: "cn={uid},dc=yunohost,dc=org"
                 default_roles: ROLE_USER
                 uid_key: uid
-                extra_fields: ['email']
         
     firewalls:
         dev:
@@ -25,20 +24,17 @@ security:
         main:
             anonymous: true
             lazy: true
-            provider: users_in_memory
-             # ...
-            form_login_ldap:
-                # ...
-                service: Symfony\Component\Ldap\Ldap
-                dn_string: 'uid={username},dc=yunohost,dc=org'
+            provider: your_db_provider
+            
+            form_login: 
+                login_path: user_login
+                check_path: user_login
                 username_parameter: "connexion[user_name]"
                 password_parameter: "connexion[password]"
-                login_path: product
-                check_path: product
+            #form_login_ldap:
+                #service: Symfony\Component\Ldap\Ldap
+                #dn_string: 'uid={username},dc=yunohost,dc=org'
                 
-                
-            
-
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 

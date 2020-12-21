@@ -180,6 +180,4 @@ class Product
     {
         return ["ROLE_USER"];
     }
-
-    
 }
