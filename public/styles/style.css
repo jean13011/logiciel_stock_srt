@@ -4,3 +4,7 @@ body
     font-size: auto;
     background-color: #e0e1e2;
 }
+
+#login-form > ul{
+    color: red;
+}

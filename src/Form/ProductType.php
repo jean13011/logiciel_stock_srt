@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use DateTime;
 use App\Entity\Product;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -43,7 +44,7 @@ class ProductType extends AbstractType
                 ]
             ])
 
-            ->add('date', DateTimeType::class, ["label" => "Date et heure d'entrée: ", "years" => range(2020,2025)])
+            ->add('date', DateTimeType::class, ["label" => "Date et heure d'entrée: ", "data" => new \DateTime("now +1 hour")])
 
         ;
     }

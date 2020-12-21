@@ -13,7 +13,7 @@ class ConnexionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('Nom_utilisateur', TextType::class, [
+            ->add('user_name', TextType::class, [
                 "label" => "Nom d'utilisateur", "attr" => [
                     "class" => "form-control"
                 ]

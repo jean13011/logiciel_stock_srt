@@ -2,32 +2,34 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Product;
 use App\Form\SearchType;
 use App\Form\ProductType;
 use App\Form\ConnexionType;
 use Symfony\Component\Ldap\Ldap;
+use App\Repository\UserRepository;
 use App\Repository\ProductRepository;
 use Symfony\Component\Form\FormError;
 use Picqer\Barcode\BarcodeGeneratorPNG;
 use Doctrine\ORM\EntityManagerInterface;
-use Picqer\Barcode\BarcodeGeneratorHTML;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Ldap\Adapter\QueryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
 class ProductController extends AbstractController
 {
     /**
-     * @Route("/", name="product")
+     * @Route("/login", name="product")
      */
-    public function connexionInLpad(Request $req, EntityManagerInterface $manage, Ldap $ldap): Response
+    public function connexionInLpad(Request $req, Ldap $ldap, EntityManagerInterface $manager, UserRepository $repo, UserPasswordEncoderInterface $encoder): Response
     {
-
-        $form = $this->createForm(ConnexionType::class);
+        $user = new User();
+        $form = $this->createForm(ConnexionType::class, $user);
 
         $form->handleRequest($req);
         if($form->isSubmitted() && $form->isValid())
@@ -35,12 +37,12 @@ class ProductController extends AbstractController
             try 
             {
                 $request = $req->request->get("connexion");
-                $uid= $request["Nom_utilisateur"];
-    
+                $uid= $request["user_name"];
                 $pass = $request["password"];
-    
-                $dn = "uid=".$uid.",ou=users,dc=yunohost,dc=org";
                 $password = $pass;
+
+                $conn = $ldap->getEntryManager();
+                $dn = "uid=".$uid.",ou=users,dc=yunohost,dc=org";
         
                 Ldap::create('ext_ldap', [
                     'host' => 'login.am-conseil.eu',
@@ -50,11 +52,32 @@ class ProductController extends AbstractController
                 $ldap->bind($dn, $password);
                 $query = $ldap->query('dc=yunohost,dc=org', '(&(objectClass=inetOrgPerson)(uid='.$uid.'))' );
                 $results = $query->execute()->toArray();
-                dd($results);
-
-            } catch (\Throwable $th) 
+            } 
+            
+            catch (\Throwable $th) 
             {
-                $errors = $form->addError(new FormError('Login ou mot de passe inccorect'));
+                $form->addError(new FormError('Veuillez vérifier vos informations de connection!'));
+            }
+            
+            if( isset($results) && is_array($results))
+            {
+                $find = $repo->findOneBy([
+                    "user_name" => $uid
+                ]);
+                
+                if ($find == true) 
+                {
+                    return $this->redirectToRoute("product_type");
+                } 
+                
+                else 
+                {
+                    $hash = $encoder->encodePassword($user, $user->getPassword());
+                    $user->setPassword($hash);
+                    $user->setRole(["ROLE_USER"]);
+                    $manager->persist($user);
+                    $manager->flush();
+                }
             }
         }
 
