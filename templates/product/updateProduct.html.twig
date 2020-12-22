@@ -27,20 +27,20 @@
             <td class="text-center"><strong>{{products.name}}</strong> <a href="{{path("product_modify_name", {"id" : products.id})}}"><button type="button" class="btn btn-warning"> Modifier </button></a></td>
             <td class="text-center"><strong>{{products.reference}}</strong> <a href="{{path("product_modify_reference", {"id" : products.id})}}"><button type="button" class="btn btn-warning"> Modifier </button></a></td>
             <td class="text-center">
-                <div class="d-flex justify-content-center p-25">
                 {% if products.quantity == 0 %}
-                    <p id="quantity" class='h4 text-danger' style="color: red"><strong>{{products.quantity}}</strong> </p>
+                    <p id="quantity" class='h3 text-danger' style="color: red"><strong>{{products.quantity}}</strong> </p>
                 {% endif %}
 
                 {% if products.quantity == 1 %}
-                    <p id="quantity" class='h4 text-warning' style="color: orange"><strong>{{products.quantity}}</strong> </p>
+                    <p id="quantity" class='h3 text-warning' style="color: orange"><strong>{{products.quantity}}</strong> </p>
                 {% endif %}
 
                 {% if products.quantity >= 2 %}
-                    <p id="quantity" class='h4 text-success' style="color: green"><strong>{{products.quantity}}</strong> </p>
+                    <p id="quantity" class='h3 text-success' style="color: green"><strong>{{products.quantity}}</strong> </p>
                 {% endif %}
-                    <button type="button" onclick="Moin()" class="btn btn-danger btn-sm h-25" id="moin">  - </button>
-                    <button type="button" onclick="Plus()" class="btn btn-success btn-sm h-25" id="plus"  >  + </button>
+                <div class="d-flex justify-content-around m-50">
+                    <button type="button" onclick="Moin()" class="btn btn-danger btn-sm h-25 w-25" id="moin">  - </button>
+                    <button type="button" onclick="Plus()" class="btn btn-success btn-sm h-25 w-25" id="plus"  >  + </button>
                 </div>
             </td>
             <td class="text-center"><strong>{{products.emplacement}}</strong> <a href="{{path("product_modify_emplacement", {"id" : products.id})}}"><button type="button" class="btn btn-warning"> Modifier </button></a></td>

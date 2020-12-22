@@ -6,8 +6,8 @@
     <br>
     <form action="{{path("product_search_reference")}}" method="get" class="form-inline d-flex justify-content-center md-form form-sm mt-0">
         <label for="reference">Réference: </label>
-        <input type="text" name="product[reference]" id="product_reference">
-        <button type="submit">recherche</button>
+        <input type="text" name="product[reference]" id="product_reference" class="form-control w-50">
+        <button type="submit" class="btn btn-primary justify-content-center">recherche</button>
     </form>
 
     <form action="{{path("product_search_by_rack")}}" method="get" class="form-inline d-flex justify-content-center md-form form-sm mt-0">
@@ -15,7 +15,7 @@
         <select name="product[emplacement]" >
            <option>Rack</option>
         </select>
-        <button type="submit">recherche</button>
+        <button type="submit" class="btn btn-primary justify-content-center">recherche</button>
     </form>
     {% for product in products %}
     <table class="table table-bordered bg-white">

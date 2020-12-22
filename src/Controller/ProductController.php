@@ -2,26 +2,23 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Entity\Product;
 use App\Form\SearchType;
 use App\Form\ProductType;
 use App\Form\ConnexionType;
 use Symfony\Component\Ldap\Ldap;
-use App\Repository\UserRepository;
 use App\Form\ChangeProductNameType;
 use App\Repository\ProductRepository;
 use Symfony\Component\Form\FormError;
 use Picqer\Barcode\BarcodeGeneratorPNG;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\ChangeProductEmplacementType;
+use App\Repository\ProductActionRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Ldap\Adapter\QueryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-
 
 class ProductController extends AbstractController
 {
@@ -80,8 +77,6 @@ class ProductController extends AbstractController
      */
     public function display(ProductRepository $repo): Response
     {
-
-        $orderBy = "order by name";
 
         return $this->render('product/searchProduct.html.twig', [
             'products' => $repo->findBy([], ["name" => "asc"] )
@@ -157,7 +152,7 @@ class ProductController extends AbstractController
      * @Route("/modifyReference/{id}", name="product_modify_reference")
      * 
      */
-    public function modifyReference(Request $req, int $id, ProductRepository $prod)
+    public function modifyReference(Request $req, int $id, ProductRepository $prod,  ProductActionRepository $action)
     {
         $product = new Product;
         
@@ -170,6 +165,7 @@ class ProductController extends AbstractController
         {
             $ref = $product->getReference();
             $prod->mofifyReference($id, $ref);
+            $action->actionForModifiedReference($id, $ref);
 
             $generator =  new BarcodeGeneratorPNG();
             $code = base64_encode($generator->getBarcode($product->getReference(), $generator::TYPE_CODE_128));
@@ -185,7 +181,7 @@ class ProductController extends AbstractController
     /**
      * @Route("/modifyName/{id}", name="product_modify_name")
      */
-    public function modifyName(Request $req, int $id, ProductRepository $prod)
+    public function modifyName(Request $req, int $id, ProductRepository $prod, ProductActionRepository $action)
     {
         $product = new Product;
         
@@ -195,6 +191,7 @@ class ProductController extends AbstractController
         {
             $name = $product->getName();
             $prod->mofifyName($id, $name);
+            $action->actionForModifiedName($id, $name);
             $this->addFlash("success", "Nom du produit modifié !");
         }
 
@@ -207,7 +204,7 @@ class ProductController extends AbstractController
      /**
      * @Route("/modifyEmplacement/{id}", name="product_modify_emplacement")
      */
-    public function modifyEmplacement(Request $req, int $id, ProductRepository $prod)
+    public function modifyEmplacement(Request $req, int $id, ProductRepository $prod, ProductActionRepository $action)
     {
         $product = new Product;
         
@@ -217,6 +214,7 @@ class ProductController extends AbstractController
         {
             $emplacement = $product->getEmplacement();
             $prod->mofifyEmplacement($id, $emplacement);
+            $action->actionForModifiedEmplacement($id, $emplacement);
             $this->addFlash("success", "Emplacement modifié !");
         }
 

@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Historique{% endblock %}
+
+{% block  body %}
+    <br>  
+    {% for product in products %}
+        <table class="table table-bordered bg-white">
+            <thead>
+                <tr>
+                    <th class="text-center" scope="col">id: </th>
+                    {% if product.newName != null %}
+                        <th class="text-center" scope="col" row="10" col="15">Nom changé: </th>
+                    {% endif %}
+                    {% if product.newReference != null %}
+                        <th class="text-center" scope="col">Réference changée :</th>
+                    {% endif %} 
+                    {% if product.newQuantity != null %}
+                        <th class="text-center" scope="col">Quantité changée:</th>
+                    {% endif %}
+                    {% if product.newEmplacement != null %}
+                        <th class="text-center" scope="col">Emplacement changé:</th>
+                    {% endif %}
+                    <th class="text-center" scope="col">Date de modification</th>
+                </tr>
+            </thead>
+            <tbody>
+                <th class="text-center" scope="row">{{product.idProduct}}</th>
+                {% if product.newName != null %}
+                    <td class="text-center"><strong>{{product.newName}}</strong></td>
+                {% endif %}
+                {% if product.newReference != null %}
+                    <td class="text-center"><strong>{{product.newReference}}</strong></td>
+                {% endif %}
+                {% if product.newQuantity != null %}
+                    <td class="text-center"><strong>{{product.newQuantity}}</strong></td>
+                {% endif %}
+                {% if product.newEmplacement != null %}
+                    <td class="text-center"> <strong>{{product.newEmplacement}}</strong></td>
+                {% endif %}
+                <td class="text-center"> <strong>{{product.modificationDate|date('d-m-Y H:i')}}</strong></td>
+            </tbody>
+            <br><br>
+        </table>
+    {% endfor %} 
+{% endblock %}
