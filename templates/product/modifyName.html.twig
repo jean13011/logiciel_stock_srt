@@ -1,15 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier la réference{% endblock %}
+{% block title %}Modifier le nom du produit{% endblock %}
 
 {% block body %}
+    <a href="{{path("product_search")}}">Retour au stock</a>
     <div class="d-flex justify-content-center mt-5">
         <span class="border border-dark bg-white  border border-dark p-6 rounded bg-white shadow-lg p-3 mb-5 bg-white rounded" style="padding: 10px">
             <div>
-                <h1>Nouvelle réference</h1>
+                <h1>Nouveau nom du produit</h1>
+                 {% for message in app.flashes('success') %}
+                    <div class="alert alert-success">
+                        {{ message }}
+                    </div>
+                {% endfor %}
                 {{ form_start(form) }}
                     <div class="input-group-sm mb-3">
-                        {{ form_row(form.reference) }}
+                        {{ form_row(form.name) }}
                     </div>
                     <br>
                     <div class="input-group input-group-sm mb-3">
@@ -17,11 +23,6 @@
                     </div>
                     <br>
                     <br>
-                    {% if code != "" %}
-                        <p>votre nouveau code barre (n'oubliez pas de l'enregistrer): </p>
-                        <br>
-                        <img src="data:image/png;base64,{{code}}" alt="bare_code" class="img-fluid" style="margin-left: 100px">
-                    {% endif %}
                     {{ form_rest(form) }}
                 {{ form_end(form) }}
             </div>

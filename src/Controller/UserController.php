@@ -45,7 +45,7 @@ class UserController extends AbstractController
                 $ldap->bind($dn, $password);
                 $query = $ldap->query('dc=yunohost,dc=org', '(&(objectClass=inetOrgPerson)(uid='.$uid.'))' );
                 $results = $query->execute()->toArray();
-                dd($results);
+                $user->getRoles();
             } 
             
             catch (\Throwable $th) 
@@ -61,11 +61,13 @@ class UserController extends AbstractController
                 
                 if ($find == true) 
                 {
+                    $user->getRoles();
                     return $this->redirectToRoute("product_type");
                 } 
                 
                 else 
                 {
+                    $user->getRoles();
                     $hash = $encoder->encodePassword($user, $user->getPassword());
                     $user->setPassword($hash);
                     $user->setRole($user->getRoles());
@@ -79,6 +81,14 @@ class UserController extends AbstractController
             'controller_name' => 'ProductController',
             "form" => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/logout" , name="user_logout", methods={"GET"})
+     */
+    public function logout()
+    {
+
     }
 
 }

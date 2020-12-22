@@ -13,7 +13,11 @@ class SearchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('reference', TextType::class)
+            ->add('reference', TextType::class, [
+                "label" => "Nouvelle Réference : ", "attr"=> [
+                    "class" => "form-control"
+                ]
+            ])
         ;
     }
 

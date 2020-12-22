@@ -81,4 +81,41 @@ class ProductRepository extends ServiceEntityRepository
 
         ]);
     }
+
+    public function mofifyName(int $id, string $name)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = "UPDATE `product` 
+                SET name = :name
+                WHERE id = :id   
+                ";
+        
+        $query = $conn->prepare($sql);
+        $exec = $query->execute([
+            "name" => $name,
+            "id" => $id
+        ]);
+
+        return $exec;
+    }
+
+    public function mofifyEmplacement(int $id, string $emplacement)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = "UPDATE `product` 
+                SET emplacement = :emplacement
+                WHERE id = :id   
+                ";
+        
+        $query = $conn->prepare($sql);
+        $exec = $query->execute([
+            "emplacement" => $emplacement,
+            "id" => $id
+        ]);
+
+        return $exec;
+    }
+   
 }

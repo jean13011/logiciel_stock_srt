@@ -9,10 +9,12 @@ use App\Form\ProductType;
 use App\Form\ConnexionType;
 use Symfony\Component\Ldap\Ldap;
 use App\Repository\UserRepository;
+use App\Form\ChangeProductNameType;
 use App\Repository\ProductRepository;
 use Symfony\Component\Form\FormError;
 use Picqer\Barcode\BarcodeGeneratorPNG;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Form\ChangeProductEmplacementType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -177,6 +179,50 @@ class ProductController extends AbstractController
         [
             "form" => $form->createView(),
             "code" => $code 
+        ]);
+    }
+
+    /**
+     * @Route("/modifyName/{id}", name="product_modify_name")
+     */
+    public function modifyName(Request $req, int $id, ProductRepository $prod)
+    {
+        $product = new Product;
+        
+        $form = $this->createForm(ChangeProductNameType::class, $product);
+        $form->handleRequest($req);
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $name = $product->getName();
+            $prod->mofifyName($id, $name);
+            $this->addFlash("success", "Nom du produit modifié !");
+        }
+
+        return $this->render("product/modifyName.html.twig", 
+        [
+            "form" => $form->createView(),
+        ]);
+    }
+
+     /**
+     * @Route("/modifyEmplacement/{id}", name="product_modify_emplacement")
+     */
+    public function modifyEmplacement(Request $req, int $id, ProductRepository $prod)
+    {
+        $product = new Product;
+        
+        $form = $this->createForm(ChangeProductEmplacementType::class, $product);
+        $form->handleRequest($req);
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $emplacement = $product->getEmplacement();
+            $prod->mofifyEmplacement($id, $emplacement);
+            $this->addFlash("success", "Emplacement modifié !");
+        }
+
+        return $this->render("product/modifyEmplacement.html.twig", 
+        [
+            "form" => $form->createView(),
         ]);
     }
 

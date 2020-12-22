@@ -4,10 +4,11 @@
 
 {% block  body %}
     <br>
-    <form action="{{path("product_search_reference")}}" method="get" class="form-inline d-flex justify-content-center md-form form-sm mt-0">
+    <form action="{{path("product_search_reference")}}" method="get" class="form-inline d-flex justify-content-center mt-0">
         <label for="reference">Réference: </label>
-        <input type="text" name="product[reference]" id="product_reference">
-        <button type="submit" >recherche</button>
+        <input type="text" name="product[reference]" id="product_reference" class="form-control w-50">
+        <br>
+        <button type="submit"  class="btn btn-primary justify-content-center">recherche</button>
     </form>
     
     <a href="{{path("product_search")}}">Retour au stock</a>
@@ -23,16 +24,26 @@
         </thead>
         <tbody>
             <th class="text-center" scope="row" id="id"><strong>{{products.id}}</strong></th>
-            <td class="text-center"><strong>{{products.name}}</strong></td>
+            <td class="text-center"><strong>{{products.name}}</strong> <a href="{{path("product_modify_name", {"id" : products.id})}}"><button type="button" class="btn btn-warning"> Modifier </button></a></td>
             <td class="text-center"><strong>{{products.reference}}</strong> <a href="{{path("product_modify_reference", {"id" : products.id})}}"><button type="button" class="btn btn-warning"> Modifier </button></a></td>
             <td class="text-center">
                 <div class="d-flex justify-content-center p-25">
-                    <p id="quantity" class=''><strong>{{products.quantity}}</strong> </p>
-                    <button type="button" onclick="Moin()" class="btn btn-danger btn-sm h-25" id="moin"> - </button>
-                    <button type="button" onclick="Plus()" class="btn btn-success btn-sm h-25" id="plus"  > + </button>
+                {% if products.quantity == 0 %}
+                    <p id="quantity" class='h4 text-danger' style="color: red"><strong>{{products.quantity}}</strong> </p>
+                {% endif %}
+
+                {% if products.quantity == 1 %}
+                    <p id="quantity" class='h4 text-warning' style="color: orange"><strong>{{products.quantity}}</strong> </p>
+                {% endif %}
+
+                {% if products.quantity >= 2 %}
+                    <p id="quantity" class='h4 text-success' style="color: green"><strong>{{products.quantity}}</strong> </p>
+                {% endif %}
+                    <button type="button" onclick="Moin()" class="btn btn-danger btn-sm h-25" id="moin">  - </button>
+                    <button type="button" onclick="Plus()" class="btn btn-success btn-sm h-25" id="plus"  >  + </button>
                 </div>
             </td>
-            <td class="text-center"><strong>{{products.emplacement}}</strong></td>
+            <td class="text-center"><strong>{{products.emplacement}}</strong> <a href="{{path("product_modify_emplacement", {"id" : products.id})}}"><button type="button" class="btn btn-warning"> Modifier </button></a></td>
         </tbody>
         <br><br>
     </table>

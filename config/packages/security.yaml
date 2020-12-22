@@ -24,16 +24,18 @@ security:
         main:
             anonymous: true
             lazy: true
-            provider: your_db_provider
+            provider: my_ldap
             
-            form_login: 
-                login_path: user_login
-                check_path: user_login
-                username_parameter: "connexion[user_name]"
-                password_parameter: "connexion[password]"
-            #form_login_ldap:
-                #service: Symfony\Component\Ldap\Ldap
-                #dn_string: 'uid={username},dc=yunohost,dc=org'
+            #form_login: 
+                #login_path: user_login
+                #check_path: user_login
+                #username_parameter: "connexion[user_name]"
+                #password_parameter: "connexion[password]"
+            form_login_ldap:
+                service: Symfony\Component\Ldap\Ldap
+                dn_string: 'uid={username},dc=yunohost,dc=org'
+                
+                
                 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
