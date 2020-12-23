@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Product;
 use App\Form\SearchType;
 use App\Form\ProductType;
@@ -43,7 +44,7 @@ class ProductController extends AbstractController
      * 
      * @return object Response for src/template/product/newProduct.html.twig
      */
-    public function add(Request $req, EntityManagerInterface $manager):Response
+    public function add(Request $req, EntityManagerInterface $manager): Response
     {
         $product = new Product();
         $form = $this->createForm(ProductType::class, $product);
@@ -58,6 +59,7 @@ class ProductController extends AbstractController
 
             $generator =  new BarcodeGeneratorPNG();
             $code = base64_encode($generator->getBarcode($product->getReference(), $generator::TYPE_CODE_128));
+           
         }
 
         return $this->render("product/newProduct.html.twig", 
@@ -137,7 +139,7 @@ class ProductController extends AbstractController
      * 
      * @return Response for src/template/product/updateProduct.html.twig
      */
-    public function modifyInterface(ProductRepository $repo, int $id):Response
+    public function modifyInterface(ProductRepository $repo, int $id): Response
     {
         if(isset($id)) 
         {
@@ -151,8 +153,16 @@ class ProductController extends AbstractController
     /**
      * @Route("/modifyReference/{id}", name="product_modify_reference")
      * 
+     * this will modify the reference of the product selected and give a new barecode
+     * @param object Request $req for the request 
+     * @param object int $id , the product's id 
+     * @param object ProductRepository $prod to modify the reference by a method in the repository
+     * @param object ProductActionRepository $action to add the modification and the time in the history
+     * 
+     * @return object Response for src/template/product/modifyReference.html.twig
+     * 
      */
-    public function modifyReference(Request $req, int $id, ProductRepository $prod,  ProductActionRepository $action)
+    public function modifyReference(Request $req, int $id, ProductRepository $prod,  ProductActionRepository $action): Response
     {
         $product = new Product;
         
@@ -180,8 +190,16 @@ class ProductController extends AbstractController
 
     /**
      * @Route("/modifyName/{id}", name="product_modify_name")
+     * 
+     *  this will modify the name of the product selected and give a new barecode
+     * @param object Request $req for the request 
+     * @param object int $id , the product's id 
+     * @param object ProductRepository $prod to modify the name by a method in the repository
+     * @param object ProductActionRepository $action to add the modification and the time in the history
+     * 
+     * @return object Response for src/template/product/modifyName.html.twig
      */
-    public function modifyName(Request $req, int $id, ProductRepository $prod, ProductActionRepository $action)
+    public function modifyName(Request $req, int $id, ProductRepository $prod, ProductActionRepository $action): Response
     {
         $product = new Product;
         
@@ -203,8 +221,16 @@ class ProductController extends AbstractController
 
      /**
      * @Route("/modifyEmplacement/{id}", name="product_modify_emplacement")
+     * 
+     *  this will modify the emplacement of the product selected and give a new barecode
+     * @param object Request $req for the request 
+     * @param object int $id , the product's id 
+     * @param object ProductRepository $prod to modify the emplacement by a method in the repository
+     * @param object ProductActionRepository $action to add the modification and the time in the history
+     * 
+     * @return object Response for src/template/product/modifyEmplacement.html.twig
      */
-    public function modifyEmplacement(Request $req, int $id, ProductRepository $prod, ProductActionRepository $action)
+    public function modifyEmplacement(Request $req, int $id, ProductRepository $prod, ProductActionRepository $action): Response
     {
         $product = new Product;
         

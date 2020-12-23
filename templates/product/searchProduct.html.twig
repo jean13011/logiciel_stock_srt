@@ -65,7 +65,7 @@
                         <button type="submit" class="btn btn-primary w-75" value="{{product.id}}" >Modifier</button>
                     </form> 
                     <form action="{{path("product_delete", {"id" : product.id})}}" method="get">
-                        <button type="submit" class="btn btn-danger w-75" value="{{product.id}}" > Supprimer </button>
+                        <button type="submit" class="btn btn-danger w-75" value="{{product.id}}" onclick="return confirm('Ceci va supprimer le produit entier, êtes-vous sûr ?')"> Supprimer </button>
                     </form>
                 </div>
             </td>

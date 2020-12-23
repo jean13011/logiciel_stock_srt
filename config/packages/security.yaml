@@ -1,4 +1,5 @@
 security:
+    enable_authenticator_manager: true
     encoders:
         App\Entity\User:
             algorithm: bcrypt
@@ -22,20 +23,26 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: true
+            anonymous: false
             lazy: true
-            provider: my_ldap
+            provider: your_db_provider
+            entry_point: App\Security\LoginFormAuthenticator
+            guard:
+                authenticators:
+                    - App\Security\LoginFormAuthenticator
+                
+            form_login: 
+                login_path: user_login
+                check_path: user_login
+                username_parameter: "user_name"
+                password_parameter: "password"
+            logout:
+                path: user_logout
+                # where to redirect after logout
+                # target: app_any_route
             
-            #form_login: 
-                #login_path: user_login
-                #check_path: user_login
-                #username_parameter: "connexion[user_name]"
-                #password_parameter: "connexion[password]"
-            form_login_ldap:
-                service: Symfony\Component\Ldap\Ldap
-                dn_string: 'uid={username},dc=yunohost,dc=org'
-                
-                
+            
+
                 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
@@ -47,4 +54,13 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/newProduct, roles: ROLE_USER }
+        - { path: ^/searchProduct, roles: ROLE_USER }
+        - { path: ^/yourProduct, roles: ROLE_USER }
+        - { path: ^/modifyProduct/\d+$, roles: ROLE_USER }
+        - { path: ^/modifyReference/\d+$, roles: ROLE_USER }
+        - { path: ^/modifyName/\d+$, roles: ROLE_USER }
+        - { path: ^/modifyEmplacement/\d+$, roles: ROLE_USER }
+        - { path: ^/modifyQuantity, roles: ROLE_USER }
+        - { path: ^/delete/\d+$, roles: ROLE_USER }
+

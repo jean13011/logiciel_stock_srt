@@ -8,3 +8,7 @@ body
 #login-form > ul{
     color: red;
 }
+
+body > div.d-flex.justify-content-center > span > div > form > div:nth-child(2) > div > ul > li{
+    color: red;
+}
