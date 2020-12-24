@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Connection{% endblock %}
+{% block title %}Connexion{% endblock %}
 
 {% block body %}
 <div id="form-div" class="form-group d-flex justify-content-center bg-white p-2 rounded-top container mt-5 p-5 w-25 h-75 shadow-lg p-3 mb-5 bg-white rounded">
@@ -16,6 +16,7 @@
         {% endif %}
 
             <h1 class="text-center">Bienvenue, veuillez vous connecter pour acceder à l'application</h1>
+            <br><br>
             <div class="form-group">
                 <label for="inputUser_name">Nom d'utilisateur</label>
                 <input type="text" value="{{ last_username }}" name="user_name" id="inputUser_name" class="form-control" required autofocus>
@@ -26,17 +27,11 @@
             </div>
             <input type="hidden" name="_csrf_token"value="{{ csrf_token('authenticate') }}">
             <br><br>
-
-        {#
-            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-            See https://symfony.com/doc/current/security/remember_me.html
-
             <div class="checkbox mb-3">
                 <label>
-                    <input type="checkbox" name="_remember_me"> Remember me
+                    <input type="checkbox" name="_remember_me"> Se souvenir de moi
                 </label>
             </div>
-        #}
 
         <button class="btn btn-primary justify-content-center w-100 p-3" type="submit">Connexion</button>
     </form>

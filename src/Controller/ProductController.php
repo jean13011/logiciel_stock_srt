@@ -15,6 +15,7 @@ use Picqer\Barcode\BarcodeGeneratorPNG;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\ChangeProductEmplacementType;
 use App\Repository\ProductActionRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -44,7 +45,7 @@ class ProductController extends AbstractController
      * 
      * @return object Response for src/template/product/newProduct.html.twig
      */
-    public function add(Request $req, EntityManagerInterface $manager): Response
+    public function addNew(Request $req, EntityManagerInterface $manager): Response
     {
         $product = new Product();
         $form = $this->createForm(ProductType::class, $product);
@@ -72,16 +73,18 @@ class ProductController extends AbstractController
     /**
      * @Route("/searchProduct", name="product_search")
      * 
-     * it display all products from the db 
+     * displays all entered products and paginates all 5 products
      * @param object Product product  ProductRepository $repo to find all the products from the repository
      * 
      * @return object Response for src/template/product/searchProduct.html.twig
      */
-    public function display(ProductRepository $repo): Response
+    public function display(ProductRepository $repo, Request $req, PaginatorInterface $paginator): Response
     {
 
+        $products = $paginator->paginate($repo->findBy([], ["name" => "asc"] ), $req->query->getInt("page", 1), 5);
+
         return $this->render('product/searchProduct.html.twig', [
-            'products' => $repo->findBy([], ["name" => "asc"] )
+            'products' => $products
         ]);
     } 
 
@@ -117,13 +120,13 @@ class ProductController extends AbstractController
      * 
      * @return object Response
      */
-    public function searchByRack(ProductRepository $repo): Response
+    public function searchByRack(ProductRepository $repo, PaginatorInterface $paginator,Request $req): Response
     {
     
-        $find = $repo->findBy([], ["emplacement" => "asc"]);
+        $products = $paginator->paginate($repo->findBy([], ["emplacement" => "asc"]), $req->query->getInt("page", 1), 5);
 
         return $this->render('product/searchProduct.html.twig', [
-            'products' => $find
+            'products' => $products
         ]);
         
     }

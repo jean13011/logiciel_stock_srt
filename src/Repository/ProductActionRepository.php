@@ -118,4 +118,22 @@ class ProductActionRepository extends ServiceEntityRepository
 
         return $exec;
     }
+
+    public function actionForModifiedQuantity(int $id, int $quantity)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+    
+        $sql = "INSERT INTO `product_action` 
+                (idProduct, newReference, modificationDate)
+                VALUES (:id, :ref, NOW())
+                ";
+    
+        $query = $conn->prepare($sql);
+        $exec = $query->execute([
+            "ref" => $ref,
+            "id" => $id
+        ]);
+    
+        return $exec;
+    }
 }

@@ -5,24 +5,22 @@
 {% block  body %}
     <br>
     <form action="{{path("product_search_reference")}}" method="get" class="form-inline d-flex justify-content-center md-form form-sm mt-0">
-        <label for="reference">Réference: </label>
+        <label for="reference" class="h2">Réference: </label>
         <input type="text" name="product[reference]" id="product_reference" class="form-control w-50">
         <button type="submit" class="btn btn-primary justify-content-center">recherche</button>
     </form>
 
-    <form action="{{path("product_search_by_rack")}}" method="get" class="form-inline d-flex justify-content-center md-form form-sm mt-0">
-        <label for="recherche"> chercher par </label>
-        <select name="product[emplacement]" >
-           <option>Rack</option>
-        </select>
-        <button type="submit" class="btn btn-primary justify-content-center">recherche</button>
+    <br><br>
+    <form action="{{path("product_search_by_rack")}}" method="get" class="form-inline d-flex justify-content-center ">
+        <label for="recherche" class="h3 p-1"> chercher par rack  </label>
+        <button type="submit" class="btn btn-primary justify-content-center ">  recherche</button>
     </form>
     {% for product in products %}
     <table class="table table-bordered bg-white">
         <thead>
             <tr>
-                <th class="text-center" scope="col">id: </th>
-                <th class="text-center" scope="col" row="10" col="15">nom: </th>
+                <th class="text-center" scope="col">ID: </th>
+                <th class="text-center" scope="col" row="10" col="15">Nom: </th>
                 <th class="text-center" scope="col">Réference :</th>
                 <th class="text-center" scope="col">Quantité :</th>
                 <th class="text-center" scope="col">Emplacement :</th>
@@ -71,7 +69,12 @@
             </td>
         </tbody>
         <br><br>
-    </table>
-        
+    </table> 
     {% endfor %}
+    <br>
+    <br>
+    <br>
+    <div class="pagination d-flex justify-content-center">
+        {{ knp_pagination_render(products) }}
+    </div>
 {% endblock %}
