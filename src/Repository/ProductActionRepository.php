@@ -53,7 +53,8 @@ class ProductActionRepository extends ServiceEntityRepository
         $conn = $this->getEntityManager()->getConnection();
 
         $sql = "SELECT * FROM  `product_action` 
-                WHERE 1
+                WHERE 1 
+                ORDER BY modificationDate DESC
                 ";
         
         $query = $conn->prepare($sql);
@@ -124,13 +125,13 @@ class ProductActionRepository extends ServiceEntityRepository
         $conn = $this->getEntityManager()->getConnection();
     
         $sql = "INSERT INTO `product_action` 
-                (idProduct, newReference, modificationDate)
-                VALUES (:id, :ref, NOW())
+                (idProduct, newQuantity, modificationDate)
+                VALUES (:id, :quantity, NOW())
                 ";
     
         $query = $conn->prepare($sql);
         $exec = $query->execute([
-            "ref" => $ref,
+            "quantity" => $quantity,
             "id" => $id
         ]);
     

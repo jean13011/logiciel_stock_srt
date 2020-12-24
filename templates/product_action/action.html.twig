@@ -43,4 +43,8 @@
             <br><br>
         </table>
     {% endfor %} 
+    <br><br>
+    <div class="pagination d-flex justify-content-center">
+        {{ knp_pagination_render(products) }}
+    </div>
 {% endblock %}

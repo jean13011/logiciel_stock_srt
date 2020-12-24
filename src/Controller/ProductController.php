@@ -260,7 +260,7 @@ class ProductController extends AbstractController
      * @param object ProductRepository $prod to find the product by the id
      * 
      */
-    public function modifyQuantity(Request $req, ProductRepository $prod)
+    public function modifyQuantity(Request $req, ProductRepository $prod, ProductActionRepository $action)
     {
         $number = $req->request->get("number");
         $id = $req->request->get("id");
@@ -268,6 +268,7 @@ class ProductController extends AbstractController
         if(isset($number) && isset($id))
         {
             $prod->modifyQuantity($number, $id);
+            $action->actionForModifiedQuantity($id, $number);
             $result = $prod->findOneBy(["id" => $id]);
             return $this->json(["reponse" => "Quantité mise à jour", "resultat" => $result],  200);
 
