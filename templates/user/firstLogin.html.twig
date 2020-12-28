@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Connexion{% endblock %}
+{% block title %}Connection{% endblock %}
 
 {% block body %}
 
     <div id="form-div" class="form-group d-flex justify-content-center bg-white p-2 rounded-top container mt-5 p-5 w-25 h-75 shadow-lg p-3 mb-5 bg-white rounded">
         {{form_start(form, {"attr" : {"class" : "was-validated", "id" : "login-form"}})}}
-            <img src="{{asset("image-storage/logo.png")}}" alt="logo" style="width: 235px" class="img-fluid">
+            <img src="{{asset("image-storage/logo-entier.png")}}" alt="logo" style="width: 235px" class="img-fluid">
             <h1 class="text-center"> <strong>Bienvenue, veuillez vous connecter avec vos identifiants LDAP </strong> </h1>
             <br><br>
             {{form_errors(form)}}
@@ -17,7 +17,7 @@
                 {{form_row(form.password)}}
             </div>
             <br><br>
-            <button type="submit"  class="btn btn-primary justify-content-center w-100 p-3">Connexion</button>
+            <button type="submit"  class="btn btn-primary justify-content-center w-100 p-3">Connection</button>
             {{ form_rest(form) }}
         {{form_end(form)}}
     </div>

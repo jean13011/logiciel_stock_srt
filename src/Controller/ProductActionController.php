@@ -25,7 +25,7 @@ class ProductActionController extends AbstractController
      */
     public function action(ProductActionRepository $action, PaginatorInterface $paginator, Request $req): Response
     {
-        $products = $paginator->paginate($action->findActions(), $req->query->getInt("page", 1), 5);
+        $products = $paginator->paginate($action->findActions(), $req->query->getInt("page", 1), 10);
 
         return $this->render('product_action/action.html.twig', [
             'products' => $products

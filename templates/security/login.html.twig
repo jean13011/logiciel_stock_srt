@@ -1,40 +1,39 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Connexion{% endblock %}
+{% block title %}Connection{% endblock %}
 
 {% block body %}
-<div id="form-div" class="form-group d-flex justify-content-center bg-white p-2 rounded-top container mt-5 p-5 w-25 h-75 shadow-lg p-3 mb-5 bg-white rounded">
-    <form method="post">
-        {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
+    <div id="form-div" class="form-group d-flex justify-content-center bg-white p-2 rounded-top container mt-5 p-5 w-25 h-75 shadow-lg p-3 mb-5 bg-white rounded">
+        <form method="post">
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
 
-        {% if app.user %}
-            <div class="mb-3">
-                You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
-            </div>
-        {% endif %}
+            {% if app.user %}
+                <div class="mb-3">
+                    You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                </div>
+            {% endif %}
 
-            <img src="{{asset("image-storage/logo.png")}}" alt="logo" style="width: 235px" class="img-fluid">
-            <h1 class="text-center"><strong>Bienvenue</strong></h1>
-            <br>
-            <div class="form-group">
-                <label for="inputUser_name">Nom d'utilisateur</label>
-                <input type="text" value="{{ last_username }}" name="user_name" id="inputUser_name" class="form-control" required autofocus>
-            </div>
-            <div class="form-group">
-                <label for="inputPassword">Mot de passe</label>
-                <input type="password" name="password" id="inputPassword" class="form-control" required>
-            </div>
-            <input type="hidden" name="_csrf_token"value="{{ csrf_token('authenticate') }}">
-            <br><br>
-            <div class="checkbox mb-3">
-                <label>
-                    <input type="checkbox" name="_remember_me"> Se souvenir de moi
-                </label>
-            </div>
-
-        <button class="btn btn-primary justify-content-center w-100 p-3" type="submit">Connexion</button>
-    </form>
-</div>
+                <img src="{{asset("image-storage/logo-entier.png")}}" alt="logo" style="width: 235px" class="img-fluid">
+                <h1 class="text-center"><strong>Bienvenue</strong></h1>
+                <br>
+                <div class="form-group">
+                    <label for="inputUser_name">Nom d'utilisateur</label>
+                    <input type="text" value="{{ last_username }}" name="user_name" id="inputUser_name" class="form-control" placeholder="" required autofocus>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword">Mot de passe</label>
+                    <input type="password" name="password" id="inputPassword" class="form-control" required>
+                </div>
+                <input type="hidden" name="_csrf_token"value="{{ csrf_token('authenticate') }}">
+                <br>
+                <div class="checkbox mb-3">
+                    <label>
+                        <input type="checkbox" name="_remember_me"> Se souvenir de moi
+                    </label>
+                </div>
+            <button class="btn btn-primary justify-content-center w-100 p-3" type="submit">Connection</button>
+        </form>
+    </div>
 {% endblock %}

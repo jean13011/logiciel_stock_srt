@@ -82,7 +82,7 @@ class ProductController extends AbstractController
     public function display(ProductRepository $repo, Request $req, PaginatorInterface $paginator): Response
     {
 
-        $products = $paginator->paginate($repo->findBy([], ["name" => "asc"] ), $req->query->getInt("page", 1), 5);
+        $products = $paginator->paginate($repo->findBy([], ["name" => "asc"] ), $req->query->getInt("page", 1), 20);
 
         return $this->render('product/searchProduct.html.twig', [
             'products' => $products
@@ -124,7 +124,7 @@ class ProductController extends AbstractController
     public function searchByRack(ProductRepository $repo, PaginatorInterface $paginator,Request $req): Response
     {
     
-        $products = $paginator->paginate($repo->findBy([], ["emplacement" => "asc"]), $req->query->getInt("page", 1), 5);
+        $products = $paginator->paginate($repo->findBy([], ["emplacement" => "asc"]), $req->query->getInt("page", 1), 20);
 
         return $this->render('product/searchProduct.html.twig', [
             'products' => $products
