@@ -64,7 +64,7 @@
                         <button type="submit" class="btn btn-primary w-75" value="{{products.id}}">Modifier</button>
                     </form> 
                     <button type="submit" class="btn btn-danger w-75" value="{{products.id}}"> 
-                        <a href="{{path("product_delete", {"id" : products.id})}}" style='text-decoration: none; color: white'>Supprimer</a>
+                        <a href="{{path("product_delete", {"id" : products.id})}}" style='text-decoration: none; color: white' onclick="return confirm('Ceci va supprimer le produit entier, êtes-vous sûr ?')">Supprimer</a>
                     </button>
                 </div>
             </td>  

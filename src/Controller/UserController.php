@@ -19,6 +19,16 @@ class UserController extends AbstractController
 {
     /**
      * @Route("/firstLogin", name="user_first_login")
+     * 
+     * @param object Request $req to analyse the request send by the new user
+     * @param object Ldap $ldap a package known to add employees to an internal company directory
+     * @param object EntityManagerInterface $manager to send to the application database the new user entered thanks to his ldap credential
+     * @param object UserRepository $repo to find if a user i already defined in my DB
+     * @param object UserPasswordEncoderInterface $encoder package to hash the password in bcrypt 
+     * 
+     * @return object Response for src/template/user/firstLogin.html.twig
+     * 
+     * this interface is given outside the application, it concerns the unregistered member of the company. we etablishing the connection with ldap's server and if the credentials are valid we create a knew user in DB to authentifate him with symfony
      */
     public function connexionInLpad(Request $req, Ldap $ldap, EntityManagerInterface $manager, UserRepository $repo, UserPasswordEncoderInterface $encoder): Response
     {
@@ -94,7 +104,9 @@ class UserController extends AbstractController
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+        return $this->render('security/login.html.twig', [
+                'last_username' => $lastUsername, 'error' => $error
+            ]);
     }
 
     /**

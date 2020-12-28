@@ -69,6 +69,7 @@ class ProductController extends AbstractController
             "code" => $code 
         ]);
     }
+    
     /////////////////////////// READ
     /**
      * @Route("/searchProduct", name="product_search")

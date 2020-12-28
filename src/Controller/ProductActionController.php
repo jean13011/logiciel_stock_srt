@@ -14,6 +14,14 @@ class ProductActionController extends AbstractController
 {
     /**
      * @Route("/product/action", name="product_action")
+     * 
+     * @param object ProductActionRepository $action the action repository
+     * @param object PaginatorInterface $paginator a package to paginate actions every 5 actions
+     * @param object Request $req for the paginator
+     * 
+     * @return object Response for src/template/action/action.html.twig
+     * 
+     * it display all actions made by the user on a product
      */
     public function action(ProductActionRepository $action, PaginatorInterface $paginator, Request $req): Response
     {

@@ -15,8 +15,9 @@
             </div>
         {% endif %}
 
-            <h1 class="text-center">Bienvenue</h1>
-            <br><br>
+            <img src="{{asset("image-storage/logo.png")}}" alt="logo" style="width: 235px" class="img-fluid">
+            <h1 class="text-center"><strong>Bienvenue</strong></h1>
+            <br>
             <div class="form-group">
                 <label for="inputUser_name">Nom d'utilisateur</label>
                 <input type="text" value="{{ last_username }}" name="user_name" id="inputUser_name" class="form-control" required autofocus>
