@@ -1,12 +1,14 @@
-function delProduct()
+const video = document.getElementById("video");
+
+function startup()
 {
-    var del = document.querySelectorAll("#suppr");
-    var conf = confirm('Voulez vous supprimer ce produit ?');
-    if(conf == false)
-    {
-        return
-    } else 
-    {
-       alert("Produit supprimé");
-    }
-} 
+    navigator.mediaDevices.getUserMedia({
+        audio: false,
+        video:  true,
+
+    }).then(stream=> {
+        video.srcObject = stream;
+    }).catch(console.error)
+}
+
+this.addEventListener("load", startup, false);
