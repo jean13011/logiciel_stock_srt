@@ -5,10 +5,18 @@ body
     background-color: #e0e1e2;
 }
 
+a{
+    color: orange;
+}
+
 #login-form > ul{
     color: red;
 }
 
 body > div.d-flex.justify-content-center > span > div > form > div:nth-child(2) > div > ul > li{
     color: red;
+}
+
+body > nav{
+    background-color: #fff!important;
 }
