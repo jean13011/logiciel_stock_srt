@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Connection{% endblock %}
+{% block title %}Connexion{% endblock %}
 
 {% block body %}
     <div id="form-div" class="form-group d-flex justify-content-center bg-white p-2 rounded-top container mt-5 p-5 w-25 h-75 shadow-lg p-3 mb-5 bg-white rounded">
@@ -15,7 +15,7 @@
                 </div>
             {% endif %}
 
-                <img src="{{asset("image-storage/logo-entier.png")}}" alt="logo" style="width: 235px" class="img-fluid">
+                <img src="{{asset("image-storage/logo-entier.png")}}" alt="logo" class="img-fluid">
                 <h1 class="text-center"><strong>Bienvenue</strong></h1>
                 <br>
                 <div class="form-group">
@@ -33,7 +33,7 @@
                         <input type="checkbox" name="_remember_me"> Se souvenir de moi
                     </label>
                 </div>
-            <button class="btn btn-primary justify-content-center w-100 p-3" type="submit">Connection</button>
+            <button class="btn btn-primary justify-content-center w-100 p-3" type="submit">Connexion</button>
         </form>
     </div>
 {% endblock %}

@@ -5,7 +5,7 @@
 {% block body %}
     <br>
     <form action="{{path("product_search_reference")}}" method="get"  class="form-inline d-flex justify-content-center md-form form-sm mt-0">
-        <label for="reference" class='h2'>Réference: </label>
+        <label for="reference" class='h2'>Référence: </label>
         <input type="text" name="product[reference]" id="product_reference" class="form-control w-50">
         <button type="submit" class="btn btn-primary justify-content-center">recherche</button>
     </form>
@@ -22,9 +22,9 @@
     <table class="table table-bordered bg-white">
         <thead>
             <tr>
-                <th class="text-center" scope="col">ID: </th>
-                <th class="text-center" scope="col">Nom: </th>
-                <th class="text-center" scope="col">Réference :</th>
+                <th class="text-center" scope="col">ID : </th>
+                <th class="text-center" scope="col">Nom : </th>
+                <th class="text-center" scope="col">Référence :</th>
                 <th class="text-center" scope="col">Quantité :</th>
                 <th class="text-center" scope="col">Emplacement au rack :</th>
                 <th class="text-center" scope="col">Actions</th>
@@ -74,7 +74,7 @@
 
     {% if products == null %}
     <div class="d-flex justify-content-center">
-        <p>Aucun résultat pour cette réference.</p>
+        <p>Aucun résultat pour cette référence.</p>
     </div>
     {% endif %}
 {% endblock %}

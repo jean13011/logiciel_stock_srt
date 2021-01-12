@@ -54,6 +54,6 @@ function modifyQuantity()
         console.log(ajax);
     }
 
-    ajax.open("POST", "https://127.0.0.1:8000/modifyQuantity");
+    ajax.open("POST", "https://stock.srt-groupe.fr/modifyQuantity");
     ajax.send(form);
 }
