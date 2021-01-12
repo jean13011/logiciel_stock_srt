@@ -19,18 +19,18 @@ class ProductType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                "label" => "Nom du produit: ", "attr" => [
+                "label" => "Nom du produit : ", "attr" => [
                     "class" => "form-control"
                 ]
                 ])
 
             ->add('reference', TextType::class, [
-                "label" => "Réference: " , "attr" => [
+                "label" => "Référence : " , "attr" => [
                     "class" => "form-control"
                 ]
             ])
 
-            ->add('quantity', IntegerType::class,[ "label" => "Quantité: ", "attr" => ["min" => 0, "max" => 100 , "class" => "form-control"] ])
+            ->add('quantity', IntegerType::class,[ "label" => "Quantité : ", "attr" => ["min" => 0, "max" => 100 , "class" => "form-control"] ])
 
             /* ->add('name_img', FileType::class, [
                 "required" => false, 'empty_data' => null, "label" => "image (*facultatif): " , "attr" => [
@@ -39,12 +39,12 @@ class ProductType extends AbstractType
             ]) */
 
             ->add('emplacement', TextType::class, [
-                "label" => "Emplacement au rack: " , "attr" => [
+                "label" => "Emplacement au rack : " , "attr" => [
                     "class" => "form-control"
                 ]
             ])
 
-            ->add('date', DateTimeType::class, ["label" => "Date et heure d'entrée: ", "data" => new \DateTime("now")])
+            ->add('date', DateTimeType::class, ["label" => "Date et heure d'entrée : ", "data" => new \DateTime("now")])
 
         ;
     }

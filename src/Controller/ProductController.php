@@ -32,14 +32,6 @@ class ProductController extends AbstractController
     {
         return $this->redirectToRoute("user_login");
     }
-
-    /**
-     * @Route("/camera", name="product_camera")
-     */
-    public function OpenCamera(): Response
-    {
-        return $this->render("product/camera.html.twig");
-    }
     
     //////////////////////// CREATE 
 
