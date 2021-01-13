@@ -1,20 +1,8 @@
 body
 {
     font-family: 'Roboto Slab', serif;
-    font-size: auto;
+    font-size: 1.2em;
     background-color: #e0e1e2;
-}
-
-a{
-    color: orange;
-}
-
-a:hover{
-    color: black ;
-}
-
-#login-form > ul{
-    color: red;
 }
 
 body > div.d-flex.justify-content-center > span > div > form > div:nth-child(2) > div > ul > li{
@@ -25,29 +13,62 @@ body > nav{
     background-color: #fff!important;
 }
 
-#form-div > form > img{
-    width: 235px;
+body > div > span > div > form > div:nth-child(8) > button{
+	width: 40%;
+    	height: 55px;
+}
+
+
+a{
+    color: orange;
 }
 
 body > nav > nav{
     display: none;
 }
 
+a:hover{
+    color: black ;
+}
+
+#login-form > ul{
+    color: red;
+}
+
+#form-div > form > img{
+    width: 235px;
+}
+
 @media(max-width: 620px){
+
+    body{
+         height: 100%;
+   	 width: 109vh;
+    }
     #form-div > form > img{
         width: 124px;
-        margin-left: 15px;
+        margin-left: 28px;
+    }
+
+    body > table > tbody > tr > td:nth-child(7) > div{
+        width: 21vh;
     }
 
     #form-div > form > h1{
         font-size: 1.5em;
     }
-
     #form-div{
-        width: 100%;
+        width: 75%!important;
     }
 
-    #menuToggle
+    .table>thead {
+        vertical-align: baseline;
+    }
+
+    .table>tbody {
+       vertical-align: middle;
+    } 
+#menuToggle
     {
     display: block;
     position: relative;
@@ -192,5 +213,7 @@ body > nav > nav{
 
     body > nav > nav{
         display: block;
-    }
+    }  
 }
+
+

@@ -68,6 +68,14 @@ class ProductController extends AbstractController
             "code" => $code 
         ]);
     }
+
+    public function createNewPurchaseOrder(Request $req, EntityManagerInterface $manager): Response
+    {
+        //je dois ajouter un grand formulaire du meme style que le stock mais y ajouter un champ "à soustraire" et soustraire le chiffre entrée au celui de la quantité 
+        //et pour chaques produit où la soustraction doit etre faites il faudra créer un bon de commande avec les données(nom, ref , qte(commanées, reçus))
+        //si la soustraction est egale ou inferieur a 0 alors on return
+
+    }
     
     /////////////////////////// READ
     /**

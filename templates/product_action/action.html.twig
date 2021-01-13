@@ -42,15 +42,15 @@
             </tbody>
             <br><br>
         </table>
+        {% if  product == null %}
+        <div class="text-center">
+            <p>aucune action n'a été effectuée</p>
+        </div>
+        {% endif %}
     {% endfor %} 
     <br><br>
     <div class="pagination d-flex justify-content-center">
         {{ knp_pagination_render(products) }}
     </div>
 
-    {% if  product == null %}
-    <div class="text-center">
-        <p>aucune action n'a été effectuée</p>
-    </div>
-    {% endif %}
 {% endblock %}

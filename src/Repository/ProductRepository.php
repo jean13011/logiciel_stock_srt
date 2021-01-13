@@ -117,5 +117,7 @@ class ProductRepository extends ServiceEntityRepository
 
         return $exec;
     }
+
+    //UPDATE product SET quantity = quantity - 5 WHERE id = 73
    
 }
