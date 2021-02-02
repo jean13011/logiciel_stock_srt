@@ -28,27 +28,27 @@
             </tr>
         </thead>
         <tbody>
-            <th class="text-center" scope="row" id="id"><strong>{{products.id}}</strong></th>
-            <td class="text-center"><strong>{{products.name}}</strong> <a href="{{path("product_modify_name", {"id" : products.id})}}"><button type="button" class="btn btn-warning"> Modifier </button></a></td>
-            <td class="text-center"><strong>{{products.reference}}</strong> <a href="{{path("product_modify_reference", {"id" : products.id})}}"><button type="button" class="btn btn-warning"> Modifier </button></a></td>
+            <th class="text-center" scope="row" id="id"><strong>{{product.id}}</strong></th>
+            <td class="text-center"><strong>{{product.name}}</strong> <a href="{{path("product_modify_name", {"id" : product.id})}}"><button type="button" class="btn btn-warning"> Modifier </button></a></td>
+            <td class="text-center"><strong>{{product.reference}}</strong> <a href="{{path("product_modify_reference", {"id" : product.id})}}"><button type="button" class="btn btn-warning"> Modifier </button></a></td>
             <td class="text-center">
-                {% if products.quantity == 0 %}
-                    <p id="quantity" class='h3 text-danger' style="color: red"><strong>{{products.quantity}}</strong> </p>
+                {% if product.quantity == 0 %}
+                    <p id="quantity" class='h3 text-danger' style="color: red"><strong>{{product.quantity}}</strong> </p>
                 {% endif %}
 
-                {% if products.quantity == 1 %}
-                    <p id="quantity" class='h3 text-warning' style="color: orange"><strong>{{products.quantity}}</strong> </p>
+                {% if product.quantity == 1 %}
+                    <p id="quantity" class='h3 text-warning' style="color: orange"><strong>{{product.quantity}}</strong> </p>
                 {% endif %}
 
-                {% if products.quantity >= 2 %}
-                    <p id="quantity" class='h3 text-success' style="color: green"><strong>{{products.quantity}}</strong> </p>
+                {% if product.quantity >= 2 %}
+                    <p id="quantity" class='h3 text-success' style="color: green"><strong>{{product.quantity}}</strong> </p>
                 {% endif %}
                 <div class="d-flex justify-content-around m-50">
                     <button type="button" onclick="Moin()" class="btn btn-danger btn-sm h-25 w-25" id="moin">  - </button>
                     <button type="button" onclick="Plus()" class="btn btn-success btn-sm h-25 w-25" id="plus"  >  + </button>
                 </div>
             </td>
-            <td class="text-center"><strong>{{products.emplacement}}</strong> <a href="{{path("product_modify_emplacement", {"id" : products.id})}}"><button type="button" class="btn btn-warning"> Modifier </button></a></td>
+            <td class="text-center"><strong>{{product.emplacement}}</strong> <a href="{{path("product_modify_emplacement", {"id" : product.id})}}"><button type="button" class="btn btn-warning"> Modifier </button></a></td>
         </tbody>
         <br><br>
     </table>

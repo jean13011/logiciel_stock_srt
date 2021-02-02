@@ -78,11 +78,14 @@ class ProductController extends AbstractController
     }
     
     /////////////////////////// READ
+
     /**
      * @Route("/searchProduct", name="product_search")
      * 
-     * displays all entered products and paginates all 5 products
-     * @param object Product product  ProductRepository $repo to find all the products from the repository
+     * displays all entered products and paginates by slice of 20 products
+     * @param object ProductRepository $repo to find all the products from the repository
+     * @param object Request $req for the paginator
+     * @param object PaginatorInterface $paginator package for paginate my product and break the page every 20 products
      * 
      * @return object Response for src/template/product/searchProduct.html.twig
      */
@@ -100,9 +103,10 @@ class ProductController extends AbstractController
      * @Route("/yourProduct", name="product_search_reference")
      * 
      * search  product by the reference in the code bar or manualy entered
-     * @param object Product product  ProductRepository $repo to find the product by the reference entered into the form
      * 
-     * @return Response for src/template/product/searchOneProduct.html.twig
+     * @param object ProductRepository $repo to find the product by the reference entered into the form
+     * 
+     * @return object Response  for src/template/product/searchOneProduct.html.twig
      */
     public function searchByReference(ProductRepository $repo): Response
     {
@@ -146,9 +150,9 @@ class ProductController extends AbstractController
      * 
      * set an interface with multiple buttons for update or delete somes product's infos but no modification for the moment with this
      * @param object Product product  ProductRepository for doctrine 
-     * @param Int $id from the stock
+     * @param integer $id from the stock 
      * 
-     * @return Response for src/template/product/updateProduct.html.twig
+     * @return object Response for src/template/product/updateProduct.html.twig
      */
     public function modifyInterface(ProductRepository $repo, int $id): Response
     {
@@ -156,7 +160,7 @@ class ProductController extends AbstractController
         {
             $find = $repo->find($id);
             return $this->render('product/updateProduct.html.twig', [
-                'products' => $find
+                'product' => $find
             ]);
         }
     }
@@ -266,6 +270,7 @@ class ProductController extends AbstractController
      * 
      * @param object Request $req to get the number set and the id to modify with ajax in the DB
      * @param object ProductRepository $prod to find the product by the id
+     * @param object ProductActionRepository $action to register the action just already done for the historic 
      * 
      */
     public function modifyQuantity(Request $req, ProductRepository $prod, ProductActionRepository $action)
@@ -281,6 +286,7 @@ class ProductController extends AbstractController
             return $this->json(["reponse" => "Quantité mise à jour", "resultat" => $result],  200);
 
         } else 
+
         {
             return $this->json(["error" => "aucun numero a été envoyé"], 200);
         }

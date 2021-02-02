@@ -28,11 +28,15 @@ class UserController extends AbstractController
      * 
      * @return object Response for src/template/user/firstLogin.html.twig
      * 
-     * this interface is given outside the application, it concerns the unregistered member of the company. we etablishing the connection with ldap's server and if the credentials are valid we create a knew user in DB to authentifate him with symfony
+     * this interface is given outside the application, it concerns the unregistered member of the company. we etablishing the connection with ldap's server and 
+     * if the credentials are valid we create a new user in DB to authentifate him with symfony
      */
     public function connexionInLpad(Request $req, Ldap $ldap, EntityManagerInterface $manager, UserRepository $repo, UserPasswordEncoderInterface $encoder): Response
     {
+        // instanciating User class
         $user = new User();
+
+        // binding the form with User class
         $form = $this->createForm(ConnexionType::class, $user);
 
         $form->handleRequest($req);
@@ -40,11 +44,13 @@ class UserController extends AbstractController
         {
             try 
             {
+                //retrieving the request object and its user_name and password fields, puting them in variables
                 $request = $req->request->get("connexion");
                 $uid= $request["user_name"];
                 $pass = $request["password"];
                 $password = $pass;
 
+                //by following the indications of the LDAP API on symfony, i set up the connection to the directory
                 $conn = $ldap->getEntryManager();
                 $dn = "uid=".$uid.",ou=users,dc=yunohost,dc=org";
                 Ldap::create('ext_ldap', [
@@ -54,11 +60,13 @@ class UserController extends AbstractController
 
                 $ldap->bind($dn, $password);
                 $query = $ldap->query('dc=yunohost,dc=org', '(&(objectClass=inetOrgPerson)(uid='.$uid.'))' );
+                //if there is a result i place it in array
                 $results = $query->execute()->toArray();
                 
             } catch (\Throwable $th) 
             {
-                $form->addError(new FormError('Veuillez vérifier vos informations de connection!'));
+                //if any problem is encountered in the try an error will be send to the twig's form
+                $form->addError(new FormError('Veuillez vérifier vos informations de connexion!'));
             }
             
             if( isset($results) && is_array($results))
@@ -67,12 +75,16 @@ class UserController extends AbstractController
                     "user_name" => $uid
                 ]);
                 
+                //if an user is found by his username the query will return true and signficate that the user is already in the DB
+                //so we redirect him to the main connection interface
                 if ($find == true) 
                 {
                     return $this->redirectToRoute("user_login");
                     
                 } else 
                 {
+                    //if all credentials are valids and the user is not on the DB, we have to make sur to hash the password for more security with method in $encoder
+                    //we persist, flush it to the DB and redirect immediatly on the main connction interface
                     $user->getRoles();
                     $hash = $encoder->encodePassword($user, $user->getPassword());
                     $user->setPassword($hash);
@@ -85,13 +97,17 @@ class UserController extends AbstractController
         }
 
         return $this->render('user/firstLogin.html.twig', [
-            'controller_name' => 'ProductController',
+            //return $form wich is our variable for ConnexionType
             "form" => $form->createView()
         ]);
     }
 
     /**
      * @Route("/login", name="user_login")
+     * @param object AuthenticationUtils $authenticationUtils wich is a part of security component, it provide the authentification
+     * @return object Response for template/security/login.html.twig
+     * 
+     * method pre-writed by symfony, if connection is succesfull symfony will redirect in product_type route
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
@@ -106,16 +122,26 @@ class UserController extends AbstractController
 
         return $this->render('security/login.html.twig', [
                 'last_username' => $lastUsername, 'error' => $error
-            ]);
+            ]
+        );
     }
 
     /**
      * @Route("/logout", name="user_logout")
+     * @return object Response for path call user_login
+     * 
+     * if user press "déconnexion" it call this controller and it will disconnect the user et redirect him to the login form
      */
-    public function logout()
+    public function logout(): Response
     {
         return $this->redirectToRoute("user_login");
     }
 
+    /**
+     * @Route("/legalNotice", name="user_notice")
+     */
+    public function notice(){
+        return $this->render('security/notice.html.twig');
+    }
 
 }

@@ -30,7 +30,7 @@ class ProductType extends AbstractType
                 ]
             ])
 
-            ->add('quantity', IntegerType::class,[ "label" => "Quantité : ", "attr" => ["min" => 0, "max" => 100 , "class" => "form-control"] ])
+            ->add('quantity', IntegerType::class, [ "label" => "Quantité : ", "attr" => ["min" => 0, "max" => 100 , "class" => "form-control"] ])
 
             /* ->add('name_img', FileType::class, [
                 "required" => false, 'empty_data' => null, "label" => "image (*facultatif): " , "attr" => [

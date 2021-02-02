@@ -39,6 +39,15 @@ a:hover{
     width: 235px;
 }
 
+.table>thead {
+    vertical-align: baseline;
+}
+
+.table>tbody {
+   vertical-align: middle;
+} 
+
+
 @media(max-width: 620px){
 
     body{
